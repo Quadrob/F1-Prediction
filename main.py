@@ -1,3 +1,4 @@
-from Database.Database import *
+import DB.Database as Database
 
-createTables()
+
+Database.createTables()
