@@ -1,35 +1,33 @@
 import sqlite3
 from asyncio.windows_events import NULL
 
-
-# Global variables
-DRIVERCONNECTION = NULL
+DATABASECONNECTION = NULL
 
 
-def connectToDriverTable():
-    """Create a connection to the drivers table"""
-    global DRIVERCONNECTION
-    DRIVERCONNECTION = sqlite3.connect('DB/DriverTable.db')
+def connectToDatabase():
+    """Create a connection to the database"""
+    global DATABASECONNECTION
+    DATABASECONNECTION = sqlite3.connect('DB/F1_DB.db')
 
 
-def disconnectToDriverTable():
-    """Disconnect from an active connection to the drivers table"""
-    global DRIVERCONNECTION
-    if (DRIVERCONNECTION != NULL):
-        DRIVERCONNECTION.close()
-        DRIVERCONNECTION = NULL
-        print("Closing driver table connection.")
+def disconnectFromDatabase():
+    """Disconnect from an active connection to the database"""
+    global DATABASECONNECTION
+    if (DATABASECONNECTION != NULL):
+        DATABASECONNECTION.close()
+        DATABASECONNECTION = NULL
+        print("Closing database connection.")
     else:
         print("There was no active connection to close.")
 
 
 def createTables():
-    """This function can be called to create all the database tables if the do not exist"""
-    connectToDriverTable()
-    driverCursor = DRIVERCONNECTION.cursor()
+    """This function can be called to create all the database tables if they do not exist"""
+    connectToDatabase()
+    databaseCursor = DATABASECONNECTION.cursor()
 
     # create the drivers table
-    driverCursor.execute('''CREATE TABLE IF NOT EXISTS 
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         drivers(id INTEGER PRIMARY KEY,
                             fullName TEXT,
                             age INTEGER,
@@ -49,13 +47,12 @@ def createTables():
                             avgPoints REAL,
                             totalPoints REAL,
                             totalRaces INTEGER,
-                            ratingEA INTEGER,
-                            ratingAutosport REAL,
-                            ratingReader REAL)''')
-    DRIVERCONNECTION.commit()
+                            ratingF1Man22 INTEGER,
+                            ratingEA INTEGER)''')
+    DATABASECONNECTION.commit()
 
     # create the team table
-    driverCursor.execute('''CREATE TABLE IF NOT EXISTS 
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         teams(id INTEGER PRIMARY KEY,
                             fullName TEXT,
                             age INTEGER,
@@ -64,10 +61,10 @@ def createTables():
                             DNF INTEGER,
                             avgPoints REAL,
                             ratingReader REAL)''')
-    DRIVERCONNECTION.commit()
+    DATABASECONNECTION.commit()
 
     # create the track table
-    driverCursor.execute('''CREATE TABLE IF NOT EXISTS 
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         tracks(id INTEGER PRIMARY KEY,
                             fullName TEXT,
                             age INTEGER,
@@ -76,10 +73,10 @@ def createTables():
                             DNF INTEGER,
                             avgPoints REAL,
                             ratingReader REAL)''')
-    DRIVERCONNECTION.commit()
+    DATABASECONNECTION.commit()
 
     # create the country + weather table
-    driverCursor.execute('''CREATE TABLE IF NOT EXISTS 
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         locations(id INTEGER PRIMARY KEY,
                             fullName TEXT,
                             age INTEGER,
@@ -88,8 +85,8 @@ def createTables():
                             DNF INTEGER,
                             avgPoints REAL,
                             ratingReader REAL)''')
-    DRIVERCONNECTION.commit()
+    DATABASECONNECTION.commit()
 
     # close connection
-    driverCursor.close()
-    disconnectToDriverTable()
+    databaseCursor.close()
+    disconnectFromDatabase()
