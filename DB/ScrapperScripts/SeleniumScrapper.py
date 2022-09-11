@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+from copyreg import constructor
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
@@ -11,6 +12,9 @@ currentDriverNames = []
 currentDriverTeam = []
 currentDriverPoints = []
 loadoutRatingsData = []
+
+f1ConstructorsData = []
+f1ConstructorsDNFs = []
 
 names = []
 avgpoint = []
@@ -25,6 +29,13 @@ def configChromeDriver():
     global chromeDriver
     chromeDriver = webdriver.Chrome(
         ChromeDriverManager().install(), options=chrome_options)
+
+
+def disconnectChromeDriver():
+    global chromeDriver
+    chromeDriver.quit()
+    chromeDriver = NULL
+    print('Closing chrome driver!')
 
 
 def racingStats():
@@ -102,6 +113,82 @@ def formula1pointsScrapper():
                         totalraces.append(td.text.strip())
                         tdCounter = 0
 
+
+def f1ConstructorsInfo():
+    chromeDriver.get(
+        "https://www.formula1.com/en/teams.html")
+    content = chromeDriver.page_source
+    soup = BeautifulSoup(content, "html.parser")
+
+    for div in soup.findAll('div', attrs={'class': 'container listing team-listing'}):
+        for a in div.findAll('a', attrs={'class': 'listing-link'}, href=True):
+            chromeDriver.get("https://www.formula1.com" + str(a['href']))
+            content = chromeDriver.page_source
+            soup = BeautifulSoup(content, "html.parser")
+            f1ConstructorsInfoExtractor(soup)
+
+
+def f1ConstructorsInfoExtractor(soup):
+    global f1ConstructorsData
+    tdCounter = 0
+    for tbody in soup.findAll('tbody'):
+        f1Constructor = []
+        for tr in tbody.findAll('tr'):
+            for td in tr.findAll('td'):
+                match tdCounter:
+                    case 0:
+                        f1Constructor.append(td.text.strip())
+                        tdCounter += 1
+                    case 6:
+                        f1Constructor.append(td.text.strip())
+                        tdCounter += 1
+                    case 7:
+                        f1Constructor.append(td.text.strip())
+                        tdCounter += 1
+                    case 8:
+                        f1Constructor.append(td.text.strip())
+                        tdCounter += 1
+                    case 9:
+                        f1Constructor.append(td.text.strip())
+                        tdCounter += 1
+                    case 10:
+                        f1Constructor.append(td.text.strip())
+                        tdCounter = 0
+                    case _:
+                        tdCounter += 1
+        f1ConstructorsData.append(f1Constructor)
+
+
+def f1ConstructorDNFInfo():
+    global f1ConstructorsDNFs
+    teams = ['red-bull', 'ferrari', 'mercedes', 'mclaren', 'alpine-f1-team',
+             'alfa-romeo', 'hass-f1-team', 'aston-martin', 'alphatauri', 'williams']
+    for team in teams:
+        chromeDriver.get(
+            "https://www.racing-statistics.com/en/f1-constructors/compare/" + team + "/seasons/2022s")
+        content = chromeDriver.page_source
+        soup = BeautifulSoup(content, "html.parser")
+        thCounter = 0
+        tdCounter = 0
+
+        for table in soup.findAll('table', attrs={'class': 'bottommargin'}):
+            for tr in table.findAll('tr'):
+                for th in tr.findAll('th'):
+                    match tdCounter:
+                        case 1:
+                            #f1Constructor.append(td.text.strip()) get name
+                            tdCounter = 0
+                        case _:
+                            tdCounter += 1
+                for td in tr.findAll('td'):
+                    match tdCounter:
+                        case 0:
+                            #f1Constructor.append(td.text.strip())
+                            tdCounter += 1
+                        case _:
+                            tdCounter += 1
+
+            break
 
 def getTeamID(teamName):
     match teamName:

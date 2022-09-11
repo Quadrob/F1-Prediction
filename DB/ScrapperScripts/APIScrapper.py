@@ -15,8 +15,10 @@ def f1Manager22DriverRatings():
         driverData = []
         driverData.append(
             jsonDriversObject['docs'][driverNum]['fullNameForSearch'])
-        driverData.append(
-            jsonDriversObject['docs'][driverNum]['birthdate'])
+
+        BDate = jsonDriversObject['docs'][driverNum]['birthdate'].split(' ')
+        driverData.append(BDate[0])
+
         driverData.append(
             jsonDriversObject['docs'][driverNum]['nationality'])
         driverData.append(

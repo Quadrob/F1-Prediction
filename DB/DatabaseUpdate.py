@@ -9,22 +9,57 @@ def scrapperUpdate(databaseCursor, fullName, currentDriver, avgPoints=NULL, tota
 
 def racingStatsUpdate(databaseCursor, fullName, currentDriver, currentDriverPos, currentDriverTeam, currentDriverPoints):
     """This function is mainly used by the web scrapper to update the database."""
-    databaseCursor.execute('''UPDATE drivers SET currentDriver=?, currentChampPos=?, driverTeamID=?, currentChampPoints=? WHERE fullName=?;''',
-                           (int(currentDriver), int(currentDriverPos), int(currentDriverTeam), float(currentDriverPoints), str(fullName)))
-    rowsUpdated = databaseCursor.rowcount
-    if int(rowsUpdated) <= 0:
-        databaseCursor.execute('''INSERT INTO drivers(fullName,currentDriver,currentChampPos,driverTeamID,currentChampPoints) VALUES(?,?,?,?,?)''',
-                               (str(fullName), int(currentDriver), int(currentDriverPos), int(currentDriverTeam), float(currentDriverPoints)))
-        print("Added: '" + fullName + "' to the drivers table.")
+    if fullName != NULL:
+        databaseCursor.execute('''UPDATE drivers SET currentDriver=?, currentChampPos=?, driverTeamID=?, currentChampPoints=? WHERE fullName=?;''',
+                               (int(currentDriver), int(currentDriverPos), int(currentDriverTeam), float(currentDriverPoints), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO drivers(fullName,currentDriver,currentChampPos,driverTeamID,currentChampPoints) VALUES(?,?,?,?,?)''',
+                                   (str(fullName), int(currentDriver), int(currentDriverPos), int(currentDriverTeam), float(currentDriverPoints)))
+            print("Added: '" + fullName + "' to the drivers table.")
+    else:
+        print('Cant run method without a full driver name')
 
 
 def loadoutUpdate(databaseCursor, fullName, ratingsEA=NULL):
     """This function is mainly used by the web scrapper to update the database."""
-    databaseCursor.execute('''UPDATE drivers SET ratingEA=? WHERE fullName=?;''',
-                           (int(ratingsEA), str(fullName)))
-    rowsUpdated = databaseCursor.rowcount
-    if int(rowsUpdated) <= 0:
-        databaseCursor.execute('''INSERT INTO drivers(fullName,currentDriver,ratingEA) VALUES(?,?,?)''',
-                               (str(fullName), 0, int(ratingsEA)))
-        print("Added: '" + fullName +
-              "' to the drivers table with ratingEA = " + str(ratingsEA))
+    if fullName != NULL:
+        databaseCursor.execute('''UPDATE drivers SET ratingEA=? WHERE fullName=?;''',
+                               (int(ratingsEA), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO drivers(fullName,currentDriver,ratingEA) VALUES(?,?,?)''',
+                                   (str(fullName), 0, int(ratingsEA)))
+            print("Added: '" + fullName +
+                  "' to the drivers table with ratingEA = " + str(ratingsEA))
+    else:
+        print('Cant run method without a full driver name')
+
+
+def f1ManagerUpdate(databaseCursor, fullName, birthDate=NULL, originContryID=NULL, ratingF1Man22=NULL):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != NULL:
+        databaseCursor.execute('''UPDATE drivers SET birthDate=?, originContryID=?, ratingF1Man22=? WHERE fullName=?;''',
+                               (str(birthDate), int(originContryID), int(ratingF1Man22), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO drivers(fullName,birthDate,originContryID,currentDriver,ratingF1Man22) VALUES(?,?,?,?,?)''',
+                                   (str(fullName), str(birthDate), int(originContryID), 1, int(ratingF1Man22)))
+            print("Added: '" + fullName +
+                  "' to the drivers table with ratingF1Man22 = " + str(ratingF1Man22))
+    else:
+        print('Cant run method without a full driver name')
+
+
+def f1TeamsUpdate(databaseCursor, fullName, teamFirstEntry=NULL, currentChampPos=NULL, worldChamp=NULL, teamWins=NULL, poles=NULL, fastestLap=NULL):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != NULL:
+        databaseCursor.execute('''UPDATE teams SET teamFirstEntry=?, currentConstructor=?, currentChampPos=?, worldChamp=?, teamWins=?, poles=?, fastestLap=? WHERE fullName=?;''',
+                               (int(teamFirstEntry), 1, int(currentChampPos), int(worldChamp), int(teamWins), int(poles), int(fastestLap), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO teams(fullName,teamFirstEntry,currentConstructor,currentChampPos,worldChamp,teamWins,poles,fastestLap) VALUES(?,?,?,?,?,?,?,?)''',
+                                   (str(fullName), int(teamFirstEntry), 1, int(currentChampPos), int(worldChamp), int(teamWins), int(poles), int(fastestLap)))
+            print("Added: '" + fullName + "' to the teams table.")
+    else:
+        print('Cant run method without a full driver name')

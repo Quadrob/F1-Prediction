@@ -16,7 +16,7 @@ def disconnectFromDatabase():
     if (DATABASECONNECTION != NULL):
         DATABASECONNECTION.close()
         DATABASECONNECTION = NULL
-        print("Closing database connection.")
+        print("Closing database connection!")
     else:
         print("There was no active connection to close.")
 
@@ -30,14 +30,13 @@ def createTables():
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         drivers(id INTEGER PRIMARY KEY,
                             fullName TEXT,
-                            age INTEGER,
+                            birthDate TEXT,
                             originContryID INTEGER,
                             firstSeason INTEGER, 
                             currentDriver INTEGER,
                             currentChampPos INTEGER,
                             currentChampPoints REAL,
                             driverTeamID INTEGER,
-                            teamContract INTEGER,
                             driverWins INTEGER,
                             podiums INTEGER,
                             poles INTEGER,
@@ -55,12 +54,16 @@ def createTables():
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         teams(id INTEGER PRIMARY KEY,
                             fullName TEXT,
-                            age INTEGER,
-                            fastestLap INTEGER,
+                            teamFirstEntry INTEGER,
+                            currentConstructor INTEGER,
+                            currentChampPos INTEGER,
+                            currentChampPoints REAL,
+                            teamWins INTEGER,
                             worldChamp INTEGER,
+                            poles INTEGER,
+                            fastestLap INTEGER,
                             DNF INTEGER,
-                            avgPoints REAL,
-                            ratingReader REAL)''')
+                            avgPoints REAL)''')
     DATABASECONNECTION.commit()
 
     # create the track table

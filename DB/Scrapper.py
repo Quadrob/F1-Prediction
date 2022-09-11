@@ -1,8 +1,13 @@
+import re
 import Database
 import DatabaseUpdate
 import ScrapperScripts.APIScrapper as AS
 import ScrapperScripts.SeleniumScrapper as SS
 
+# ===========================================
+# Remove this
+Database.createTables()
+# ===========================================
 
 # Setup scrapper config
 Database.connectToDatabase()
@@ -36,7 +41,17 @@ for loadoutDriver in SS.loadoutRatingsData:
 
 # Put data from f1 manager 2022 website into the databse
 AS.f1Manager22DriverRatings()
-print(AS.F1Manager22RatingsData)
+for f1ManagerDriver in AS.F1Manager22RatingsData:
+    if str(f1ManagerDriver[0]) == "Sergio Perez":
+        f1ManagerDriver[0] = "Sergio Pérez"
+    elif str(f1ManagerDriver[0]) == "Carlos Sainz Jr.":
+        f1ManagerDriver[0] = "Carlos Sainz"
+    elif str(f1ManagerDriver[0]) == "Zhou Guanyu":
+        f1ManagerDriver[0] = "Guanyu Zhou"
+
+    DatabaseUpdate.f1ManagerUpdate(databaseCursor, str(f1ManagerDriver[0]), str(
+        f1ManagerDriver[1]), int(f1ManagerDriver[2]), int(f1ManagerDriver[3]))
+    Database.DATABASECONNECTION.commit()
 
 # SS.formula1pointsScrapper()
 # for f1DriverNumber in range(len(names)):
@@ -55,10 +70,36 @@ print(AS.F1Manager22RatingsData)
 #     Database.DATABASECONNECTION.commit()
 
 
-try:
-    SS.chromeDriver.quit()
-    SS.chromeDriver.close()
-    databaseCursor.close()
-    Database.disconnectFromDatabase()
-except:
-    print('Closing Scrapper!')
+# Put data from f1 website into teams table
+SS.f1ConstructorsInfo()
+teamCurrentPos = 1
+for f1Team in SS.f1ConstructorsData:
+    worldChampions = f1Team[2]
+    if str(worldChampions) == 'N/A':
+        worldChampions = 0
+
+    teamWins = f1Team[3].split(' (x')
+    if str(teamWins[0]) == '1':
+        teamWins = re.sub('[^0-9]', '', teamWins[1])
+    else:
+        teamWins = 0
+
+    poles = f1Team[4]
+    if str(poles) == 'N/A':
+        poles = 0
+
+    fastestLaps = f1Team[5]
+    if str(fastestLaps) == 'N/A':
+        fastestLaps = 0
+
+    DatabaseUpdate.f1TeamsUpdate(databaseCursor, str(f1Team[0]), str(
+        f1Team[1]), int(teamCurrentPos), int(worldChampions), int(teamWins), int(poles), int(fastestLaps))
+    Database.DATABASECONNECTION.commit()
+    teamCurrentPos += 1
+
+
+# Close all variables
+SS.disconnectChromeDriver()
+databaseCursor.close()
+Database.disconnectFromDatabase()
+print('Closing Scrapper!')
