@@ -43,10 +43,7 @@ def f1ManagerUpdate(databaseCursor, fullName, birthDate=NULL, originContryID=NUL
                                (str(birthDate), int(originContryID), int(ratingF1Man22), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
         if int(rowsUpdated) <= 0:
-            databaseCursor.execute('''INSERT INTO drivers(fullName,birthDate,originContryID,currentDriver,ratingF1Man22) VALUES(?,?,?,?,?)''',
-                                   (str(fullName), str(birthDate), int(originContryID), 1, int(ratingF1Man22)))
-            print("Added: '" + fullName +
-                  "' to the drivers table with ratingF1Man22 = " + str(ratingF1Man22))
+            print("Failed to update driver: '" + fullName + "'")
     else:
         print('Cant run method without a full driver name')
 
@@ -61,5 +58,19 @@ def f1TeamsUpdate(databaseCursor, fullName, teamFirstEntry=NULL, currentChampPos
             databaseCursor.execute('''INSERT INTO teams(fullName,teamFirstEntry,currentConstructor,currentChampPos,worldChamp,teamWins,poles,fastestLap) VALUES(?,?,?,?,?,?,?,?)''',
                                    (str(fullName), int(teamFirstEntry), 1, int(currentChampPos), int(worldChamp), int(teamWins), int(poles), int(fastestLap)))
             print("Added: '" + fullName + "' to the teams table.")
+    else:
+        print('Cant run method without a full driver name')
+
+    # 1 cur pos, 2 cur wins, 3 cur points, 4 dnf
+
+
+def f1TeamsDNFsUpdate(databaseCursor, fullName, currentChampPos=NULL, currentWins=NULL, currentChampPoints=NULL, DNF=NULL):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != NULL:
+        databaseCursor.execute('''UPDATE teams SET currentChampPos=?, currentWins=?, currentChampPoints=?, DNF=? WHERE fullName=?;''',
+                               (int(currentChampPos), int(currentWins), float(currentChampPoints), int(DNF), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            print("Failed to update team: " + str(fullName))
     else:
         print('Cant run method without a full driver name')

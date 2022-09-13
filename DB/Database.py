@@ -21,12 +21,15 @@ def disconnectFromDatabase():
         print("There was no active connection to close.")
 
 
-def createTables():
+def createTablesIfNotExist():
     """This function can be called to create all the database tables if they do not exist"""
     connectToDatabase()
     databaseCursor = DATABASECONNECTION.cursor()
 
     # create the drivers table
+    # ===================================
+    # firstSeason, driverWins, podiums, poles, fastestLap, worldChamp, DNF, avgPoints, totalPoints, totalRaces
+    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         drivers(id INTEGER PRIMARY KEY,
                             fullName TEXT,
@@ -51,22 +54,34 @@ def createTables():
     DATABASECONNECTION.commit()
 
     # create the team table
+    # ===================================
+    # originContryID, avgPoints, teamPodiums, totalpoints, totalraces, totalSeasons
+    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         teams(id INTEGER PRIMARY KEY,
                             fullName TEXT,
+                            originContryID INTEGER,
                             teamFirstEntry INTEGER,
                             currentConstructor INTEGER,
                             currentChampPos INTEGER,
+                            currentWins INTEGER,
                             currentChampPoints REAL,
                             teamWins INTEGER,
+                            teamPodiums INTEGER,
                             worldChamp INTEGER,
                             poles INTEGER,
                             fastestLap INTEGER,
                             DNF INTEGER,
+                            totalSeasons INTEGER,
+                            totalPoints REAL,
+                            totalRaces INTEGER,
                             avgPoints REAL)''')
     DATABASECONNECTION.commit()
 
     # create the track table
+    # ===================================
+    #
+    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         tracks(id INTEGER PRIMARY KEY,
                             fullName TEXT,
@@ -79,6 +94,9 @@ def createTables():
     DATABASECONNECTION.commit()
 
     # create the country + weather table
+    # ===================================
+    #
+    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         locations(id INTEGER PRIMARY KEY,
                             fullName TEXT,

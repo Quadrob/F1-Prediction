@@ -4,12 +4,9 @@ import DatabaseUpdate
 import ScrapperScripts.APIScrapper as AS
 import ScrapperScripts.SeleniumScrapper as SS
 
-# ===========================================
-# Remove this
-Database.createTables()
-# ===========================================
 
 # Setup scrapper config
+Database.createTablesIfNotExist()
 Database.connectToDatabase()
 databaseCursor = Database.DATABASECONNECTION.cursor()
 SS.configChromeDriver()
@@ -96,6 +93,23 @@ for f1Team in SS.f1ConstructorsData:
         f1Team[1]), int(teamCurrentPos), int(worldChampions), int(teamWins), int(poles), int(fastestLaps))
     Database.DATABASECONNECTION.commit()
     teamCurrentPos += 1
+
+
+# Put data from f1 website into teams table
+SS.f1ConstructorDNFInfo()
+for teamDNFs in SS.f1ConstructorsDNFs:
+    teamName = SS.getTeamName(teamDNFs[0])
+    teamPos = re.sub('[^0-9]', '', teamDNFs[1])
+    DatabaseUpdate.f1TeamsDNFsUpdate(databaseCursor, str(teamName), int(
+        teamPos), int(teamDNFs[2]), float(teamDNFs[3]), int(teamDNFs[4]))
+    Database.DATABASECONNECTION.commit()
+
+
+# Put data from f1 points website into teams table
+SS.f1ConstructorsPointsScrapper()
+# name, wins, podiums, totalraces, avg win, avg podiums, fastest lap, poles, best pos, current team, first season, last season,
+#                                       num of seasons, best pos in champ, worst pos in champ
+print(str(SS.f1ConstructorsPoints))
 
 
 # Close all variables
