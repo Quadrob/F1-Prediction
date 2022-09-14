@@ -107,9 +107,12 @@ for teamDNFs in SS.f1ConstructorsDNFs:
 
 # Put data from f1 points website into teams table
 SS.f1ConstructorsPointsScrapper()
-# name, wins, podiums, totalraces, avg win, avg podiums, fastest lap, poles, best pos, current team, first season, last season,
-#                                       num of seasons, best pos in champ, worst pos in champ
-print(str(SS.f1ConstructorsPoints))
+for teamPoints in SS.f1ConstructorsPoints:
+    teamName = SS.getTeamName(teamPoints[0])
+    avgPoints = float(teamPoints[15])/float(teamPoints[3])
+    DatabaseUpdate.f1TeamsPointsUpdate(databaseCursor, str(teamName), int(
+        teamPoints[2]), int(teamPoints[3]), float(teamPoints[4]), float(teamPoints[5]), int(teamPoints[12]), float(teamPoints[15]), float(avgPoints))
+    Database.DATABASECONNECTION.commit()
 
 
 # Close all variables

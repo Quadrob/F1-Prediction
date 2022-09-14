@@ -54,13 +54,9 @@ def createTablesIfNotExist():
     DATABASECONNECTION.commit()
 
     # create the team table
-    # ===================================
-    # originContryID, avgPoints, teamPodiums, totalpoints, totalraces, totalSeasons
-    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         teams(id INTEGER PRIMARY KEY,
                             fullName TEXT,
-                            originContryID INTEGER,
                             teamFirstEntry INTEGER,
                             currentConstructor INTEGER,
                             currentChampPos INTEGER,
@@ -75,6 +71,8 @@ def createTablesIfNotExist():
                             totalSeasons INTEGER,
                             totalPoints REAL,
                             totalRaces INTEGER,
+                            avgPodiums REAL,
+                            avgWins REAL,
                             avgPoints REAL)''')
     DATABASECONNECTION.commit()
 

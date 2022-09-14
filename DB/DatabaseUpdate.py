@@ -74,3 +74,15 @@ def f1TeamsDNFsUpdate(databaseCursor, fullName, currentChampPos=NULL, currentWin
             print("Failed to update team: " + str(fullName))
     else:
         print('Cant run method without a full driver name')
+
+
+def f1TeamsPointsUpdate(databaseCursor, fullName, teamPodiums=NULL, totalRaces=NULL, avgWins=NULL, avgPodiums=NULL, totalSeasons=NULL, totalPoints=NULL, avgPoints=NULL):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != NULL:
+        databaseCursor.execute('''UPDATE teams SET teamPodiums=?, totalRaces=?, avgWins=?, avgPodiums=?, totalSeasons=?, totalPoints=?, avgPoints=? WHERE fullName=?;''',
+                               (int(teamPodiums), int(totalRaces), float(avgWins), float(avgPodiums), int(totalSeasons), float(totalPoints), float(avgPoints), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            print("Failed to update team: " + str(fullName))
+    else:
+        print('Cant run method without a full driver name')

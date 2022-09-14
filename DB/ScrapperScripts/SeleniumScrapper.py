@@ -201,24 +201,40 @@ def f1ConstructorDNFInfo():
 
 def f1ConstructorsPointsScrapper():
     global f1ConstructorsPoints
-    teams = ['Red-bull', 'Ferrari', 'Mercedes', 'Mclaren', 'Alpine-f1-team',
-             'Alfa-romeo', 'Haas-f1-team', 'Aston-martin', 'Alphatauri', 'Williams']
+    teams = ['Red-bull', 'Ferrari', 'Mercedes', 'Mclaren', 'Alpine',
+             'Alfa-romeo', 'Haas', 'Aston Martin', 'Alphatauri', 'Williams']
     for team in teams:
         chromeDriver.get(
             "https://www.formula1points.com/team/" + team)
         content = chromeDriver.page_source
         soup = BeautifulSoup(content, "html.parser")
         tableCounter = 0
+        tdCounter = 0
         teamPoints = []
+        teamTotal = 0
         teamPoints.append(team)
 
         for table in soup.findAll('table', attrs={'class': 'main-table'}):
             match tableCounter:
+                case 1:
+                    for tbody in table.findAll('tbody'):
+                        for tr in tbody.findAll('tr'):
+                            for td in tr.findAll('td'):
+                                match tdCounter:
+                                    case 1:
+                                        teamTotal = float(td.text.strip())
+                                        tdCounter += 1
+                                        break
+                                    case _:
+                                        tdCounter += 1
+                            tableCounter += 1
+                            break
                 case 2:
                     for tbody in table.findAll('tbody'):
                         for tr in tbody.findAll('tr'):
                             for td in tr.findAll('td'):
                                 teamPoints.append(td.text.strip())
+                    teamPoints.append(teamTotal)
                     f1ConstructorsPoints.append(teamPoints)
                     break
                 case _:
@@ -256,24 +272,38 @@ def getTeamName(teamName):
     match teamName:
         case 'Red Bull':
             return 'Oracle Red Bull Racing'
+        case 'Red-bull':
+            return 'Oracle Red Bull Racing'
         case 'Ferrari':
             return 'Scuderia Ferrari'
         case 'Mercedes':
             return 'Mercedes-AMG Petronas F1 Team'
         case 'McLaren':
             return 'McLaren F1 Team'
+        case 'Mclaren':
+            return 'McLaren F1 Team'
         case 'Alpine F1 Team':
+            return 'BWT Alpine F1 Team'
+        case 'Alpine':
             return 'BWT Alpine F1 Team'
         case 'Alfa Romeo':
             return 'Alfa Romeo F1 Team ORLEN'
+        case 'Alfa-romeo':
+            return 'Alfa Romeo F1 Team ORLEN'
         case 'Haas F1 Team':
+            return 'Haas F1 Team'
+        case 'Haas':
             return 'Haas F1 Team'
         case 'Aston Martin':
             return 'Aston Martin Aramco Cognizant F1 Team'
+        case 'Aston-Martin':
+            return 'Aston Martin Aramco Cognizant F1 Team'
         case 'AlphaTauri':
+            return 'Scuderia AlphaTauri'
+        case 'Alphatauri':
             return 'Scuderia AlphaTauri'
         case 'Williams':
             return 'Williams Racing'
         case _:
             print("This team name was not found: " + teamName)
-            return 0
+            return teamName
