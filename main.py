@@ -1,4 +1,4 @@
 import DB.Database as Database
 
 
-Database.createTables()
+Database.createTablesIfNotExist()
