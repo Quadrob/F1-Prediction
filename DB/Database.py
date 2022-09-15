@@ -1,7 +1,6 @@
 import sqlite3
-from asyncio.windows_events import NULL
 
-DATABASECONNECTION = NULL
+DATABASECONNECTION = None
 
 
 def connectToDatabase():
@@ -13,9 +12,9 @@ def connectToDatabase():
 def disconnectFromDatabase():
     """Disconnect from an active connection to the database"""
     global DATABASECONNECTION
-    if (DATABASECONNECTION != NULL):
+    if (DATABASECONNECTION != None):
         DATABASECONNECTION.close()
-        DATABASECONNECTION = NULL
+        DATABASECONNECTION = None
         print("Closing database connection!")
     else:
         print("There was no active connection to close.")

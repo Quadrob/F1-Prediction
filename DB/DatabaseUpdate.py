@@ -1,7 +1,6 @@
-from asyncio.windows_events import NULL
 
 
-def scrapperUpdate(databaseCursor, fullName, currentDriver, avgPoints=NULL, totalPoints=NULL, totalRaces=NULL, ratingsEA=NULL):
+def scrapperUpdate(databaseCursor, fullName, currentDriver, avgPoints=None, totalPoints=None, totalRaces=None, ratingsEA=None):
     """This function is mainly used by the web scrapper to update the database."""
     databaseCursor.execute('''INSERT INTO drivers(fullName,currentDriver,avgPoints,totalPoints,totalRaces,ratingEA) VALUES(?,?,?,?,?,?)''',
                            (str(fullName), int(currentDriver), float(avgPoints), float(totalPoints), int(totalRaces), int(ratingsEA)))
@@ -9,7 +8,7 @@ def scrapperUpdate(databaseCursor, fullName, currentDriver, avgPoints=NULL, tota
 
 def racingStatsUpdate(databaseCursor, fullName, currentDriver, currentDriverPos, currentDriverTeam, currentDriverPoints):
     """This function is mainly used by the web scrapper to update the database."""
-    if fullName != NULL:
+    if fullName != None:
         databaseCursor.execute('''UPDATE drivers SET currentDriver=?, currentChampPos=?, driverTeamID=?, currentChampPoints=? WHERE fullName=?;''',
                                (int(currentDriver), int(currentDriverPos), int(currentDriverTeam), float(currentDriverPoints), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
@@ -21,9 +20,9 @@ def racingStatsUpdate(databaseCursor, fullName, currentDriver, currentDriverPos,
         print('Cant run method without a full driver name')
 
 
-def loadoutUpdate(databaseCursor, fullName, ratingsEA=NULL):
+def loadoutUpdate(databaseCursor, fullName, ratingsEA=None):
     """This function is mainly used by the web scrapper to update the database."""
-    if fullName != NULL:
+    if fullName != None:
         databaseCursor.execute('''UPDATE drivers SET ratingEA=? WHERE fullName=?;''',
                                (int(ratingsEA), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
@@ -36,9 +35,9 @@ def loadoutUpdate(databaseCursor, fullName, ratingsEA=NULL):
         print('Cant run method without a full driver name')
 
 
-def f1ManagerUpdate(databaseCursor, fullName, birthDate=NULL, originContryID=NULL, ratingF1Man22=NULL):
+def f1ManagerUpdate(databaseCursor, fullName, birthDate=None, originContryID=None, ratingF1Man22=None):
     """This function is mainly used by the web scrapper to update the database."""
-    if fullName != NULL:
+    if fullName != None:
         databaseCursor.execute('''UPDATE drivers SET birthDate=?, originContryID=?, ratingF1Man22=? WHERE fullName=?;''',
                                (str(birthDate), int(originContryID), int(ratingF1Man22), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
@@ -48,9 +47,9 @@ def f1ManagerUpdate(databaseCursor, fullName, birthDate=NULL, originContryID=NUL
         print('Cant run method without a full driver name')
 
 
-def f1TeamsUpdate(databaseCursor, fullName, teamFirstEntry=NULL, currentChampPos=NULL, worldChamp=NULL, teamWins=NULL, poles=NULL, fastestLap=NULL):
+def f1TeamsUpdate(databaseCursor, fullName, teamFirstEntry=None, currentChampPos=None, worldChamp=None, teamWins=None, poles=None, fastestLap=None):
     """This function is mainly used by the web scrapper to update the database."""
-    if fullName != NULL:
+    if fullName != None:
         databaseCursor.execute('''UPDATE teams SET teamFirstEntry=?, currentConstructor=?, currentChampPos=?, worldChamp=?, teamWins=?, poles=?, fastestLap=? WHERE fullName=?;''',
                                (int(teamFirstEntry), 1, int(currentChampPos), int(worldChamp), int(teamWins), int(poles), int(fastestLap), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
@@ -64,9 +63,9 @@ def f1TeamsUpdate(databaseCursor, fullName, teamFirstEntry=NULL, currentChampPos
     # 1 cur pos, 2 cur wins, 3 cur points, 4 dnf
 
 
-def f1TeamsDNFsUpdate(databaseCursor, fullName, currentChampPos=NULL, currentWins=NULL, currentChampPoints=NULL, DNF=NULL):
+def f1TeamsDNFsUpdate(databaseCursor, fullName, currentChampPos=None, currentWins=None, currentChampPoints=None, DNF=None):
     """This function is mainly used by the web scrapper to update the database."""
-    if fullName != NULL:
+    if fullName != None:
         databaseCursor.execute('''UPDATE teams SET currentChampPos=?, currentWins=?, currentChampPoints=?, DNF=? WHERE fullName=?;''',
                                (int(currentChampPos), int(currentWins), float(currentChampPoints), int(DNF), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
@@ -76,9 +75,9 @@ def f1TeamsDNFsUpdate(databaseCursor, fullName, currentChampPos=NULL, currentWin
         print('Cant run method without a full driver name')
 
 
-def f1TeamsPointsUpdate(databaseCursor, fullName, teamPodiums=NULL, totalRaces=NULL, avgWins=NULL, avgPodiums=NULL, totalSeasons=NULL, totalPoints=NULL, avgPoints=NULL):
+def f1TeamsPointsUpdate(databaseCursor, fullName, teamPodiums=None, totalRaces=None, avgWins=None, avgPodiums=None, totalSeasons=None, totalPoints=None, avgPoints=None):
     """This function is mainly used by the web scrapper to update the database."""
-    if fullName != NULL:
+    if fullName != None:
         databaseCursor.execute('''UPDATE teams SET teamPodiums=?, totalRaces=?, avgWins=?, avgPodiums=?, totalSeasons=?, totalPoints=?, avgPoints=? WHERE fullName=?;''',
                                (int(teamPodiums), int(totalRaces), float(avgWins), float(avgPodiums), int(totalSeasons), float(totalPoints), float(avgPoints), str(fullName)))
         rowsUpdated = databaseCursor.rowcount

@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from copyreg import constructor
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -6,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
 
-chromeDriver = NULL
+chromeDriver = None
 currentDriverPos = []
 currentDriverNames = []
 currentDriverTeam = []
@@ -35,7 +34,7 @@ def configChromeDriver():
 def disconnectChromeDriver():
     global chromeDriver
     chromeDriver.quit()
-    chromeDriver = NULL
+    chromeDriver = None
     print('Closing chrome driver!')
 
 
