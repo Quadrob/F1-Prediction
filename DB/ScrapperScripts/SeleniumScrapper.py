@@ -10,6 +10,8 @@ currentDriverPos = []
 currentDriverNames = []
 currentDriverTeam = []
 currentDriverPoints = []
+currentDriverLinks = []
+currentDriverStats = []
 loadoutRatingsData = []
 
 f1ConstructorsData = []
@@ -39,11 +41,12 @@ def disconnectChromeDriver():
 
 
 def racingStats():
-    global chromeDriver
     global currentDriverPos
     global currentDriverNames
     global currentDriverTeam
     global currentDriverPoints
+    global currentDriverLinks
+    global currentDriverStats
     chromeDriver.get(
         "https://www.racing-statistics.com/en/f1-drivers")
     content = chromeDriver.page_source
@@ -60,6 +63,9 @@ def racingStats():
                         tdCounter += 1
                     case 2:
                         currentDriverNames.append(td.text.strip())
+                        for a in td.findAll('a', href=True):
+                            currentDriverLinks.append(
+                                (td.text.strip(), str(a['href'])))
                         tdCounter += 1
                     case 4:
                         teamID = getTeamID(td.text.strip())
@@ -70,6 +76,51 @@ def racingStats():
                         tdCounter = 0
                     case _:
                         tdCounter += 1
+
+    for driverLink in currentDriverLinks:
+        chromeDriver.get(driverLink[1])
+        content = chromeDriver.page_source
+        soup = BeautifulSoup(content, "html.parser")
+        fieldsetCounter = 0
+        tbodyCounter = 0
+        tdCounter = 0
+        statCounter = 0
+        driverStats = []
+        driverStats.append(str(driverLink[0]))
+
+        for div in soup.findAll('div', attrs={'class': 'blocks blocks2'}):
+            for fieldset in div.findAll('fieldset', attrs={'class': 'block'}):
+                match fieldsetCounter:
+                    case 1:
+                        for tbody in fieldset.findAll('tbody'):
+                            match tbodyCounter:
+                                case 0:
+                                    for tr in tbody.findAll('tr'):
+                                        tdCounter = 0
+                                        statCounter = 0
+                                        for td in tr.findAll('td'):
+                                            match tdCounter:
+                                                case 1:
+                                                    tdStats = td.text.strip().replace(" ", "").split("\n")
+                                                    for stat in tdStats:
+                                                        match statCounter:
+                                                            case 0:
+                                                                driverStats.append(
+                                                                    stat)
+                                                                statCounter += 1
+                                                            case _:
+                                                                statCounter += 1
+                                                    tdCounter += 1
+                                                case _:
+                                                    tdCounter += 1
+                                    tbodyCounter += 1
+                                case _:
+                                    tbodyCounter += 1
+                        fieldsetCounter += 1
+                    case _:
+                        fieldsetCounter += 1
+            currentDriverStats.append(driverStats)
+            break
 
 
 def theLoadOutDriverRatings():

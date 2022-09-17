@@ -18,6 +18,21 @@ for f1DriverNum in range(len(SS.currentDriverNames)):
         databaseCursor, SS.currentDriverNames[f1DriverNum], 1, SS.currentDriverPos[f1DriverNum], SS.currentDriverTeam[f1DriverNum], SS.currentDriverPoints[f1DriverNum])
     Database.DATABASECONNECTION.commit()
 
+for f1Driver in SS.currentDriverStats:
+    if str(f1Driver[0]) == "Esteban Ocon" or str(f1Driver[0]) == "Pierre Gasly" or str(f1Driver[0]) == "Kevin Magnussen" or str(f1Driver[0]) == "Mick Schumacher" or str(f1Driver[0]) == "Yuki Tsunoda" or str(f1Driver[0]) == "Guanyu Zhou" or str(f1Driver[0]) == "Alexander Albon" or str(f1Driver[0]) == "Nyck de Vries" or str(f1Driver[0]) == "Nicholas Latifi":
+        for statNum in range(len(f1Driver)):
+            if statNum == 14:
+                f1Driver[statNum] = None
+            elif statNum >= 6:
+                f1Driver[statNum] = f1Driver[statNum + 1]
+
+    avgPoints = float(f1Driver[9])/float(f1Driver[8])
+    poles = f1Driver[3].split("(")[0]
+    DatabaseUpdate.racingDriverStatsUpdate(databaseCursor, str(f1Driver[0]), int(f1Driver[6]), int(f1Driver[10]), int(f1Driver[11]), int(f1Driver[1]), int(
+        f1Driver[2]), int(poles), int(f1Driver[12]), int(f1Driver[4]), int(f1Driver[13]), float(avgPoints), float(f1Driver[9]), int(f1Driver[8]))
+    Database.DATABASECONNECTION.commit()
+
+
 # Put data from loadout website into the databse
 SS.theLoadOutDriverRatings()
 for loadoutDriver in SS.loadoutRatingsData:

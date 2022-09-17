@@ -20,6 +20,18 @@ def racingStatsUpdate(databaseCursor, fullName, currentDriver, currentDriverPos,
         print('Cant run method without a full driver name')
 
 
+def racingDriverStatsUpdate(databaseCursor, fullName, seasons=None, laps=None, lapsLead=None, driverWins=None, podiums=None, poles=None, fastestLap=None, worldChamp=None, DNF=None, avgPoints=None, totalPoints=None, totalRaces=None):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE drivers SET seasons=?, laps=?, lapsLead=?, driverWins=?, podiums=?, poles=?, fastestLap=?, worldChamp=?, DNF=?, avgPoints=?, totalPoints=?, totalRaces=? WHERE fullName=?;''',
+                               (int(seasons), int(laps), int(lapsLead), int(driverWins), int(podiums), int(poles), int(fastestLap), int(worldChamp), int(DNF), float(avgPoints), float(totalPoints), int(totalRaces), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            print("Failed to update driver: '" + fullName + "'")
+    else:
+        print('Cant run method without a full driver name')
+
+
 def loadoutUpdate(databaseCursor, fullName, ratingsEA=None):
     """This function is mainly used by the web scrapper to update the database."""
     if fullName != None:
@@ -59,8 +71,6 @@ def f1TeamsUpdate(databaseCursor, fullName, teamFirstEntry=None, currentChampPos
             print("Added: '" + fullName + "' to the teams table.")
     else:
         print('Cant run method without a full driver name')
-
-    # 1 cur pos, 2 cur wins, 3 cur points, 4 dnf
 
 
 def f1TeamsDNFsUpdate(databaseCursor, fullName, currentChampPos=None, currentWins=None, currentChampPoints=None, DNF=None):

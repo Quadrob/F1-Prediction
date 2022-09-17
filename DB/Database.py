@@ -26,18 +26,17 @@ def createTablesIfNotExist():
     databaseCursor = DATABASECONNECTION.cursor()
 
     # create the drivers table
-    # ===================================
-    # firstSeason, driverWins, podiums, poles, fastestLap, worldChamp, DNF, avgPoints, totalPoints, totalRaces
-    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         drivers(id INTEGER PRIMARY KEY,
                             fullName TEXT,
                             birthDate TEXT,
                             originContryID INTEGER,
-                            firstSeason INTEGER, 
+                            seasons INTEGER,
                             currentDriver INTEGER,
                             currentChampPos INTEGER,
                             currentChampPoints REAL,
+                            laps INTEGER,
+                            lapsLead INTEGER,
                             driverTeamID INTEGER,
                             driverWins INTEGER,
                             podiums INTEGER,
