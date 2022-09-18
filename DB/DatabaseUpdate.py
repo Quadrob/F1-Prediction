@@ -1,11 +1,3 @@
-
-
-def scrapperUpdate(databaseCursor, fullName, currentDriver, avgPoints=None, totalPoints=None, totalRaces=None, ratingsEA=None):
-    """This function is mainly used by the web scrapper to update the database."""
-    databaseCursor.execute('''INSERT INTO drivers(fullName,currentDriver,avgPoints,totalPoints,totalRaces,ratingEA) VALUES(?,?,?,?,?,?)''',
-                           (str(fullName), int(currentDriver), float(avgPoints), float(totalPoints), int(totalRaces), int(ratingsEA)))
-
-
 def racingStatsUpdate(databaseCursor, fullName, currentDriver, currentDriverPos, currentDriverTeam, currentDriverPoints):
     """This function is mainly used by the web scrapper to update the database."""
     if fullName != None:
@@ -93,5 +85,33 @@ def f1TeamsPointsUpdate(databaseCursor, fullName, teamPodiums=None, totalRaces=N
         rowsUpdated = databaseCursor.rowcount
         if int(rowsUpdated) <= 0:
             print("Failed to update team: " + str(fullName))
+    else:
+        print('Cant run method without a full driver name')
+
+
+def trackResultsUpdate(databaseCursor, fullName, eventYear=None, winner=None, teamWinner=None, pole=None, teamPole=None):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE trackResults SET winner=?, teamWinner=?, pole=?, teamPole=? WHERE fullName=? AND eventYear=?;''',
+                               (str(winner), str(teamWinner), str(pole), str(teamPole), str(fullName), int(eventYear)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO trackResults(fullName,eventYear,winner,teamWinner,pole,teamPole) VALUES(?,?,?,?,?,?)''',
+                                   (str(fullName), int(eventYear), str(winner), str(teamWinner), str(pole), str(teamPole)))
+            print("Added: '" + fullName + "' to the track results table.")
+    else:
+        print('Cant run method without a full driver name')
+
+
+def trackStatsUpdate(databaseCursor, fullName, country=None, racesHosted=None, wonFromPole=None):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE tracks SET country=?, racesHosted=?, wonFromPole=? WHERE fullName=?;''',
+                               (str(country), int(racesHosted), int(wonFromPole), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO tracks(fullName,country,racesHosted,wonFromPole) VALUES(?,?,?,?)''',
+                                   (str(fullName), str(country), int(racesHosted), int(wonFromPole)))
+            print("Added: '" + fullName + "' to the tracks table.")
     else:
         print('Cant run method without a full driver name')

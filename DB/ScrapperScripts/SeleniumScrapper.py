@@ -18,10 +18,11 @@ f1ConstructorsData = []
 f1ConstructorsDNFs = []
 f1ConstructorsPoints = []
 
-names = []
-avgpoint = []
-totalpoints = []
-totalraces = []
+trackLinks = []
+trackStats = []
+trackResults = []
+
+countries = []
 
 
 def configChromeDriver():
@@ -135,34 +136,6 @@ def theLoadOutDriverRatings():
             for li in ul.findAll('li'):
                 substring = li.text.split(" – ")
                 loadoutRatingsData.append(substring)
-
-
-def formula1pointsScrapper():
-    global names
-    global avgpoint
-    global totalpoints
-    global totalraces
-    chromeDriver.get("https://www.formula1points.com/analysis")
-    content = chromeDriver.page_source
-    soup = BeautifulSoup(content, "html.parser")
-    tdCounter = 0
-
-    for table in soup.findAll('table', attrs={'class': 'main-table dataTable', 'id': 'sortingoption'}):
-        for row in table.findAll('tr', attrs={'role': 'row'}):
-            for a in row.findAll('a'):
-                names.append(a.text.strip())
-
-            for td in row.findAll('td'):
-                match tdCounter:
-                    case 0:
-                        avgpoint.append(td.text.strip())
-                        tdCounter += 1
-                    case 1:
-                        totalpoints.append(td.text.strip())
-                        tdCounter += 1
-                    case 2:
-                        totalraces.append(td.text.strip())
-                        tdCounter = 0
 
 
 def f1ConstructorsInfo():
@@ -289,6 +262,101 @@ def f1ConstructorsPointsScrapper():
                     break
                 case _:
                     tableCounter += 1
+
+
+def trackStatsScrapper():
+    global trackLinks
+    global trackStats
+    global trackResults
+    global countries
+    chromeDriver.get(
+        "https://www.racing-statistics.com/en/circuits")
+    content = chromeDriver.page_source
+    soup = BeautifulSoup(content, "html.parser")
+    tdCounter = 0
+
+    for fieldset in soup.findAll('fieldset', attrs={'class': 'block letterboxlist'}):
+        for div in fieldset.findAll('div', attrs={'class': 'letterbox'}):
+            for tbody in div.findAll('tbody'):
+                for tr in tbody.findAll('tr'):
+                    teamLink = []
+                    for td in tr.findAll('td'):
+                        match tdCounter:
+                            case 1:
+                                teamLink.append(td.text.strip())
+                                for a in td.findAll('a', href=True):
+                                    teamLink.append(str(a['href']))
+                                trackLinks.append(teamLink)
+                                tdCounter = 0
+                            case _:
+                                tdCounter += 1
+
+    for track in trackLinks:
+        chromeDriver.get(track[1])
+        content = chromeDriver.page_source
+        soup = BeautifulSoup(content, "html.parser")
+        divCounter = 0
+        tbodyCounter = 0
+        tdCounter = 0
+        trackStatsTemp = []
+        trackStatsTemp.append(track[0])
+        trackResultsTemp = []
+
+        for div in soup.findAll('div', attrs={'class': 'layout', 'itemtype': 'http://schema.org/TouristAttraction'}):
+            for innerdiv in div.findAll('div'):
+                match divCounter:
+                    case 0:
+                        for tbody in innerdiv.findAll('tbody'):
+                            match tbodyCounter:
+                                case 0:
+                                    for tr in tbody.findAll('tr', attrs={'itemprop': 'address'}):
+                                        for td in tr.findAll('td'):
+                                            trackStatsTemp.append(
+                                                td.text.strip())
+                                            countries.append(td.text.strip())
+                                    tbodyCounter += 1
+                                case 1:
+                                    for tr in tbody.findAll('tr'):
+                                        for td in tr.findAll('td'):
+                                            trackStatsTemp.append(
+                                                td.text.strip())
+                                    tbodyCounter += 1
+                        trackStats.append(trackStatsTemp)
+                        divCounter += 1
+                    case 4:
+                        for tbody in innerdiv.findAll('tbody'):
+                            for tr in tbody.findAll('tr'):
+                                tdCounter = 0
+                                trackResultsTemp = []
+                                trackResultsTemp.append(track[0])
+                                for td in tr.findAll('td'):
+                                    match tdCounter:
+                                        case 1:
+                                            trackResultsTemp.append(
+                                                td.text.strip())
+                                            tdCounter += 1
+                                        case 4:
+                                            trackResultsTemp.append(
+                                                td.text.strip())
+                                            tdCounter += 1
+                                        case 5:
+                                            trackResultsTemp.append(
+                                                td.text.strip())
+                                            tdCounter += 1
+                                        case 8:
+                                            trackResultsTemp.append(
+                                                td.text.strip())
+                                            tdCounter += 1
+                                        case 9:
+                                            trackResultsTemp.append(
+                                                td.text.strip())
+                                            tdCounter += 1
+                                        case _:
+                                            tdCounter += 1
+                                trackResults.append(trackResultsTemp)
+                        divCounter += 1
+                    case _:
+                        divCounter += 1
 
 
 def getTeamID(teamName):

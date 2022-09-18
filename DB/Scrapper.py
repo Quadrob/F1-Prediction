@@ -11,6 +11,7 @@ Database.connectToDatabase()
 databaseCursor = Database.DATABASECONNECTION.cursor()
 SS.configChromeDriver()
 
+
 # Put data from the racing statistics website into the database
 SS.racingStats()
 for f1DriverNum in range(len(SS.currentDriverNames)):
@@ -65,22 +66,6 @@ for f1ManagerDriver in AS.F1Manager22RatingsData:
         f1ManagerDriver[1]), int(f1ManagerDriver[2]), int(f1ManagerDriver[3]))
     Database.DATABASECONNECTION.commit()
 
-# SS.formula1pointsScrapper()
-# for f1DriverNumber in range(len(names)):
-#     for loadoutName in loadoutRatingsData:
-#         if str(loadoutName[0]) == str(names[f1DriverNumber]):
-#             ratingEA = loadoutName[1]
-#             break
-#         elif str(names[f1DriverNumber]) == "Valtteri Bottas" and str(loadoutName[0]) == "Valterri Bottas":
-#             ratingEA = loadoutName[1]
-#             break
-#         ratingEA = 0
-
-#     print(str(names[f1DriverNumber]) + " = " + str(ratingEA))
-#     DatabaseUpdate.scrapperUpdate(driverCursor, names[f1DriverNumber], currentdriver[f1DriverNumber],
-#                                   avgpoint[f1DriverNumber], totalpoints[f1DriverNumber], totalraces[f1DriverNumber], ratingEA)
-#     Database.DATABASECONNECTION.commit()
-
 
 # Put data from f1 website into teams table
 SS.f1ConstructorsInfo()
@@ -129,6 +114,24 @@ for teamPoints in SS.f1ConstructorsPoints:
         teamPoints[2]), int(teamPoints[3]), float(teamPoints[4]), float(teamPoints[5]), int(teamPoints[12]), float(teamPoints[15]), float(avgPoints))
     Database.DATABASECONNECTION.commit()
 
+
+# Put data from f1 stats website into tracks and results table
+SS.trackStatsScrapper()
+for track in SS.trackStats:
+    wonFromPole = track[14].split('x')[0]
+    DatabaseUpdate.trackStatsUpdate(databaseCursor, str(track[0]), str(
+        track[2]), int(track[4]), int(wonFromPole))
+    Database.DATABASECONNECTION.commit()
+for result in SS.trackResults:
+    try:
+        year = re.sub('[^0-9]', '', result[1])
+        DatabaseUpdate.trackResultsUpdate(databaseCursor, str(result[0]), int(year), str(result[2]), str(
+            result[3]), str(result[4]), str(result[5]))
+        Database.DATABASECONNECTION.commit()
+    except:
+        print("No data for track '" + result[0] + "' in " + str(year))
+
+print(SS.countries)
 
 # Close all variables
 SS.disconnectChromeDriver()

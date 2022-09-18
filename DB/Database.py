@@ -20,10 +20,14 @@ def disconnectFromDatabase():
         print("There was no active connection to close.")
 
 
+def insertWeatherConditions(databaseCursor):
+    """This function can be called to populate the different weather conditions"""
+
 def createTablesIfNotExist():
     """This function can be called to create all the database tables if they do not exist"""
     connectToDatabase()
     databaseCursor = DATABASECONNECTION.cursor()
+    print('Create database tables if they do not exist.')
 
     # create the drivers table
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
@@ -75,33 +79,41 @@ def createTablesIfNotExist():
     DATABASECONNECTION.commit()
 
     # create the track table
-    # ===================================
-    #
-    # ===================================
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         tracks(id INTEGER PRIMARY KEY,
                             fullName TEXT,
-                            age INTEGER,
-                            fastestLap INTEGER,
-                            worldChamp INTEGER,
-                            DNF INTEGER,
-                            avgPoints REAL,
-                            ratingReader REAL)''')
+                            country TEXT,
+                            racesHosted INTEGER,
+                            wonFromPole INTEGER )''')
     DATABASECONNECTION.commit()
 
-    # create the country + weather table
-    # ===================================
-    #
-    # ===================================
+    # create the track results table
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
-                        locations(id INTEGER PRIMARY KEY,
+                        trackResults(id INTEGER PRIMARY KEY,
                             fullName TEXT,
-                            age INTEGER,
-                            fastestLap INTEGER,
-                            worldChamp INTEGER,
-                            DNF INTEGER,
-                            avgPoints REAL,
-                            ratingReader REAL)''')
+                            eventYear INTEGER,
+                            winner TEXT,
+                            teamWinner TEXT,
+                            pole TEXT,
+                            teamPole TEXT)''')
+    DATABASECONNECTION.commit()
+
+    # create the country table
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
+                        countries(id INTEGER PRIMARY KEY,
+                            fullName TEXT,
+                            weatherID INTEGER)''')
+    DATABASECONNECTION.commit()
+
+    # create the weather table
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
+                        weather(id INTEGER PRIMARY KEY,
+                            weatherDescription TEXT,
+                            racingEaseRating INTEGER)''')
+    DATABASECONNECTION.commit()
+
+    # populate weather table
+    insertWeatherConditions(databaseCursor)
     DATABASECONNECTION.commit()
 
     # close connection
