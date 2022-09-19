@@ -131,7 +131,14 @@ for result in SS.trackResults:
     except:
         print("No data for track '" + result[0] + "' in " + str(year))
 
-print(SS.countries)
+
+# Put data from f1 stats website into countries table
+for countryNum in range(len(SS.countries) + 1):
+    if countryNum % 2 != 0:
+        DatabaseUpdate.countriesUpdate(
+            databaseCursor, str(SS.countries[countryNum]))
+        Database.DATABASECONNECTION.commit()
+
 
 # Close all variables
 SS.disconnectChromeDriver()

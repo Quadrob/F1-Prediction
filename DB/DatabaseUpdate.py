@@ -115,3 +115,17 @@ def trackStatsUpdate(databaseCursor, fullName, country=None, racesHosted=None, w
             print("Added: '" + fullName + "' to the tracks table.")
     else:
         print('Cant run method without a full driver name')
+
+
+def countriesUpdate(databaseCursor, fullName):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE countries SET fullName=? WHERE fullName=?;''',
+                               (str(fullName), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            databaseCursor.execute('''INSERT INTO countries(fullName) VALUES(?)''',
+                                   (str(fullName),))
+            print("Added: '" + fullName + "' to the countries table.")
+    else:
+        print('Cant run method without a full name')

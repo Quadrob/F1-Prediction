@@ -59,6 +59,7 @@ def createTablesIfNotExist():
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS 
                         teams(id INTEGER PRIMARY KEY,
                             fullName TEXT,
+                            originContry TEXT,
                             teamFirstEntry INTEGER,
                             currentConstructor INTEGER,
                             currentChampPos INTEGER,
