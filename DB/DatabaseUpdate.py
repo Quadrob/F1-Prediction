@@ -39,11 +39,11 @@ def loadoutUpdate(databaseCursor, fullName, ratingsEA=None):
         print('Cant run method without a full driver name')
 
 
-def f1ManagerUpdate(databaseCursor, fullName, birthDate=None, originContryID=None, ratingF1Man22=None):
+def f1ManagerUpdate(databaseCursor, fullName, birthDate=None, ratingF1Man22=None):
     """This function is mainly used by the web scrapper to update the database."""
     if fullName != None:
-        databaseCursor.execute('''UPDATE drivers SET birthDate=?, originContryID=?, ratingF1Man22=? WHERE fullName=?;''',
-                               (str(birthDate), int(originContryID), int(ratingF1Man22), str(fullName)))
+        databaseCursor.execute('''UPDATE drivers SET birthDate=?, ratingF1Man22=? WHERE fullName=?;''',
+                               (str(birthDate), int(ratingF1Man22), str(fullName)))
         rowsUpdated = databaseCursor.rowcount
         if int(rowsUpdated) <= 0:
             print("Failed to update driver: '" + fullName + "'")
