@@ -129,3 +129,39 @@ def countriesUpdate(databaseCursor, fullName):
             print("Added: '" + fullName + "' to the countries table.")
     else:
         print('Cant run method without a full name')
+
+
+def driverCountryUpdate(databaseCursor, fullName, country=None):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE drivers SET country=? WHERE fullName=?;''',
+                               (str(country), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            print("Failed to update driver: '" + fullName + "'")
+    else:
+        print('Cant run method without a full driver name')
+
+
+def teamCountryUpdate(databaseCursor, fullName, country=None):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE teams SET country=? WHERE fullName=?;''',
+                               (str(country), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            print("Failed to update team: '" + fullName + "'")
+    else:
+        print('Cant run method without a full team name')
+
+
+def countryWeatherUpdate(databaseCursor, fullName, weatherID=None):
+    """This function is mainly used by the web scrapper to update the database."""
+    if fullName != None:
+        databaseCursor.execute('''UPDATE countries SET weatherID=? WHERE fullName=?;''',
+                               (int(weatherID), str(fullName)))
+        rowsUpdated = databaseCursor.rowcount
+        if int(rowsUpdated) <= 0:
+            print("Failed to update country: '" + fullName + "'")
+    else:
+        print('Cant run method without a full country name')
