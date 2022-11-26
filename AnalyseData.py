@@ -69,6 +69,7 @@ scatter_matrix(f1_data[['seasons', 'currentChampPoints', 'lapsLead', 'driverTeam
                'fastestLap', 'worldChamp', 'DNF', 'totalPoints', 'totalRaces', 'ratingF1Man22', 'ratingEA', 'wonFromPole']], figsize=(10, 10))
 
 # Show scatter matrices
+plt.savefig('Analysisplot.png')
 plt.show()
 
 # Close db connections

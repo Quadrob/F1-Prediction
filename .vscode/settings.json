@@ -1,0 +1,7 @@
+{
+  "python.analysis.extraPaths": [
+    "C:\\Python\\Lib\\site-packages",
+    "C:\\Python10\\Lib\\site-packages",
+    "./DB/dataCollection"
+  ]
+}

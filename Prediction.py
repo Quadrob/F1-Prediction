@@ -72,10 +72,10 @@ f1DataPole.drop(
 f1DataPole.sort_values(by='eventYear', ascending=True, inplace=True)
 
 
-print(str(f1DataPole))
-print(f1DataPole.head())
-print(f1DataPole.describe())
-print(f1DataPole.info())
+# print(str(f1DataPole))
+# print(f1DataPole.head())
+# print(f1DataPole.describe())
+# print(f1DataPole.info())
 
 
 # start preparing data to make predictions

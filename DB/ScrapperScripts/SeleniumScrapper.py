@@ -30,9 +30,9 @@ def configChromeDriver():
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     global chromeDriver
-    chromeDriver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    # chromeDriver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
     # Use the below chrome driver for running in the Replit host enviroment
-    # chromeDriver = webdriver.Chrome(options=chrome_options)
+    chromeDriver = webdriver.Chrome(options=chrome_options)
 
 
 def disconnectChromeDriver():

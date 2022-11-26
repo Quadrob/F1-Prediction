@@ -1,5 +1,6 @@
 import sqlite3
 
+
 DATABASECONNECTION = None
 
 
@@ -7,6 +8,7 @@ def connectToDatabase():
     """Create a connection to the database"""
     global DATABASECONNECTION
     DATABASECONNECTION = sqlite3.connect('DB/F1_DB.db')
+    print("Opened database connection!")
 
 
 def disconnectFromDatabase():
@@ -25,6 +27,22 @@ def createTablesIfNotExist():
     connectToDatabase()
     databaseCursor = DATABASECONNECTION.cursor()
     print('Create database tables if they do not exist.')
+
+    # databaseCursor.close()
+    # disconnectFromDatabase()
+    # exit()
+    # create the races table
+    databaseCursor.execute('''CREATE TABLE IF NOT EXISTS
+                            races(id INTEGER PRIMARY KEY,
+                            season INT,
+                            round INT,
+                            circuit_id TEXT,
+                            lat REAL,
+                            long REAL,
+                            country TEXT,
+                            date TEXT,
+                            url TEXT)''')
+    DATABASECONNECTION.commit()
 
     # create the drivers table
     databaseCursor.execute('''CREATE TABLE IF NOT EXISTS
