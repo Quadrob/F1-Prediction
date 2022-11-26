@@ -2,10 +2,8 @@ import DB.Database as Database
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from regression import *
-from classification import *
+import datetime
 from dateutil.relativedelta import *
-from sklearn.preprocessing import StandardScaler
 
 
 def getData():
@@ -23,7 +21,6 @@ def getData():
     weather = pd.read_sql_query('''SELECT * FROM weather''', Database.DATABASECONNECTION)
 
     # Merge all dataframes into one dataframe to make it easier to work with
-    # TODO dont exclude status for different analysis (get dummy values for status like country and nationality)
     tempDataframe1 = pd.merge(races, weather, how='inner', 
                               on=['raceID', 'season', 'round', 'circuit_id']).drop(['lat', 'long', 'weather'], axis = 1)
     
@@ -37,11 +34,59 @@ def getData():
                               on=['season', 'round', 'constructor']) #from 1958
 
     finalDataframe = pd.merge(tempDataframe4, qualifying, how='inner', 
-                              on=['season', 'round', 'grid']).drop(['driver_name', 'car'], axis = 1) # From 1983
-    # TODO remove weatherID, resultID, driverstandingsID, constructor_standingsID, qualifyingID, 
+                              on=['season', 'round', 'grid']).drop(['driver_name', 'car', 'weatherID', 'resultID', 'driver_standingsID', 'constructor_standingsID', 'qualifyingID'], axis = 1) # From 1983
     
     # Return the complete dataframe
     return finalDataframe
+
+
+def getCurrentDrivers():
+    year = datetime.date.today().year
+    Database.connectToDatabase()
+    cursor = Database.DATABASECONNECTION.cursor()
+    cursor.execute('''SELECT driver FROM driver_standings WHERE season=?''', (year,))
+    driver_standings = pd.DataFrame({"driver": cursor.fetchall()})
+    Database.disconnectFromDatabase()
+    currentDrivers = driver_standings.driver.unique()
+    driverArr = []
+    for driver in currentDrivers:
+        driverArr.append(driver[0])
+    return driverArr
+
+
+def getCurrentConstructors():
+    year = datetime.date.today().year
+    Database.connectToDatabase()
+    cursor = Database.DATABASECONNECTION.cursor()
+    cursor.execute('''SELECT constructor FROM constructor_standings WHERE season=?''', (year,))
+    constructor_standings = pd.DataFrame({"constructor": cursor.fetchall()})
+    Database.disconnectFromDatabase()
+    currentConstructors = constructor_standings.constructor.unique()
+    constructorArr = []
+    for constructor in currentConstructors:
+        constructorArr.append(constructor[0])
+    return constructorArr
+
+
+def getAllCircuitsAndCountry():
+    Database.connectToDatabase()
+    races = pd.read_sql_query('''SELECT * FROM races''', Database.DATABASECONNECTION)
+    Database.disconnectFromDatabase()
+    uniqueCircuits = races.drop_duplicates(['circuit_id'])
+    return uniqueCircuits[['circuit_id', 'country']]
+
+
+def getTracks():
+    Database.connectToDatabase()
+    cursor = Database.DATABASECONNECTION.cursor()
+    cursor.execute('''SELECT circuit_id FROM races''')
+    races = pd.DataFrame({"track": cursor.fetchall()})
+    Database.disconnectFromDatabase()
+    tracks = races.track.unique()
+    trackArr = []
+    for driver in tracks:
+        trackArr.append(driver[0])
+    return trackArr
 
 
 def calculateDriverAge(finalDataframe):
@@ -114,21 +159,26 @@ def calculateAverageSpeedDifference(finalDataframe):
 
 
 def getDummyValues(finalDataframe):
-    dummyDataframe = pd.get_dummies(finalDataframe, columns = ['circuit_id', 'country', 'nationality', 'constructor', 'constructor_nationality'] )
-    for column in dummyDataframe.columns: # TODO increase or decrease values to alter the removal of insignificate vales (was 140, 70)
-        if 'nationality' in column and dummyDataframe[column].sum() < 110:
+    finalDataframe['driverFeature'] = finalDataframe['driver']
+    finalDataframe['constructorFeature'] = finalDataframe['constructor']
+    dummyDataframe = pd.get_dummies(finalDataframe, columns = ['driverFeature', 'circuit_id', 'country', 'nationality', 'constructorFeature', 'constructor_nationality'] )
+    for column in dummyDataframe.columns: 
+        if 'driverFeature' in column and dummyDataframe[column].sum() < 25:
             dummyDataframe.drop(column, axis = 1, inplace = True)
             
-        elif 'constructor' in column and dummyDataframe[column].sum() < 110:
+        if 'nationality' in column and dummyDataframe[column].sum() < 120:
             dummyDataframe.drop(column, axis = 1, inplace = True)
             
-        elif 'circuit_id' in column and dummyDataframe[column].sum() < 65:
+        elif 'constructorFeature' in column and dummyDataframe[column].sum() < 120:
             dummyDataframe.drop(column, axis = 1, inplace = True)
             
-        elif 'country' in column and dummyDataframe[column].sum() < 110:
+        elif 'circuit_id' in column and dummyDataframe[column].sum() < 60:
             dummyDataframe.drop(column, axis = 1, inplace = True)
             
-        elif 'constructor_nationality' in column and dummyDataframe[column].sum() < 110:
+        elif 'country' in column and dummyDataframe[column].sum() < 100:
+            dummyDataframe.drop(column, axis = 1, inplace = True)
+            
+        elif 'constructor_nationality' in column and dummyDataframe[column].sum() < 120:
             dummyDataframe.drop(column, axis = 1, inplace = True)
         
         else:
@@ -182,82 +232,5 @@ def plotBarGraph(dataframe, picturePath):
     plt.savefig(picturePath)
     plt.show()
 
-
-def startRegressionTesting(dataframe, comparisonDict):
-    scaler = StandardScaler()
-    train = dataframe[dataframe.season < 2022]
-    X_train = train.drop(['driver', 'podium'], axis = 1)
-    X_train = pd.DataFrame(scaler.fit_transform(X_train), columns = X_train.columns)
-    y_train = train.podium
-
-    performLinearRegression(dataframe, scaler, X_train, y_train, comparisonDict)
-    performRandomForestRegression(dataframe, scaler, X_train, y_train, comparisonDict)
-    performSupportVectorMachineRegression(dataframe, scaler, X_train, y_train, comparisonDict)
-    performNeuralNetworkRegression(dataframe, scaler, X_train, y_train, comparisonDict)
-
-    return comparisonDict
-
-
-def startClassificationTesting(dataframe, comparisonDict):
-    scaler = StandardScaler()
-    dataframe.podium = dataframe.podium.map(lambda x: 1 if x == 1 else 0) # TODO i think i can check for a different postion here
-
-    train = dataframe[dataframe.season < 2022]
-    X_train = train.drop(['driver', 'podium'], axis = 1)
-    X_train = pd.DataFrame(scaler.fit_transform(X_train), columns = X_train.columns)
-    y_train = train.podium
-
-    performLogisticRegression(dataframe, scaler, X_train, y_train, comparisonDict)
-    performRandomForestClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
-    #performSupportVectorMachinesClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
-    #performNeuralNetworkClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
-    
-    return comparisonDict
-
-
-def predictRace(dataframe, season, round):
-    scaler = StandardScaler()
-    train = dataframe[(dataframe['season'] != season) & (dataframe['round'] != round)]
-    X_train = train.drop(['driver', 'podium'], axis = 1)
-    X_train = pd.DataFrame(scaler.fit_transform(X_train), columns = X_train.columns)
-    y_train = train.podium
-
-    results = performLinearRegressionTesting(dataframe, scaler, X_train, y_train, season, round)
-    saveDataframeToCSV(pd.DataFrame(results), "DataAnalysisResults/predictionLinearReg.csv")
-
-
-def predictXGBoost(dataframe, season, round):
-    scaler = StandardScaler()
-    train = dataframe[(dataframe['season'] != season) & (dataframe['round'] != round)]
-    X_train = train.drop(['driver', 'podium'], axis = 1)
-    X_train = pd.DataFrame(scaler.fit_transform(X_train), columns = X_train.columns)
-    y_train = train.podium
-
-    results = performXGBoostTesting(dataframe, scaler, X_train, y_train, season, round)
-    saveDataframeToCSV(pd.DataFrame(results), "DataAnalysisResults/predictionXGBoost.csv")
-
-
-def main():
-    # Get the prepared dataframe to perform predictions with
-    final_df = dataPreperation()
-    dataframeLogger(final_df)
-    saveDataframeToCSV(final_df, "DataAnalysisResults/TestingDataframe.csv")
-    
-    comparisonDict = {'model':[], 'params': [], 'score': []}
-    comparisonDict = startRegressionTesting(final_df.copy(), comparisonDict)
-    comparisonDict = startClassificationTesting(final_df.copy(), comparisonDict)
-    
-    comparisonDataframe = pd.DataFrame(comparisonDict).groupby('model')['score'].max()
-    saveDataframeToCSV(pd.DataFrame(comparisonDict), "DataAnalysisResults/predictionComparison.csv")
-    plotBarGraph(pd.DataFrame(comparisonDataframe), "DataAnalysisResults/predictionComparison.png")
-
-    predictRace(final_df.copy(), 2022, 16)
-    predictXGBoost(final_df.copy(), 2022, 16)
-
-
-
-if __name__ == "__main__":
-    # Call the main function to run the application
-    main()
 
     

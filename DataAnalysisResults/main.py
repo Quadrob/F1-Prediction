@@ -175,7 +175,6 @@ def plotBarGraph(dataframe, picturePath):
     plt.ylabel("Success Percentage %")
     plt.title("Comparison Of Machine Learning Models")
     plt.savefig(picturePath)
-    plt.show()
 
 
 def startRegressionTesting(dataframe, comparisonDict):
@@ -204,8 +203,8 @@ def startClassificationTesting(dataframe, comparisonDict):
 
     performLogisticRegression(dataframe, scaler, X_train, y_train, comparisonDict)
     performRandomForestClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
-    #performSupportVectorMachinesClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
-    #performNeuralNetworkClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
+    performSupportVectorMachinesClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
+    performNeuralNetworkClassifier(dataframe, scaler, X_train, y_train, comparisonDict)
     
     return comparisonDict
 
@@ -218,7 +217,7 @@ def predictRace(dataframe, season, round):
     y_train = train.podium
 
     results = performLinearRegressionTesting(dataframe, scaler, X_train, y_train, season, round)
-    saveDataframeToCSV(pd.DataFrame(results), "DataAnalysisResults/predictionLinearReg.csv")
+    saveDataframeToCSV(pd.DataFrame(results), "predictionLinearReg.csv")
 
 
 def predictXGBoost(dataframe, season, round):
@@ -229,7 +228,7 @@ def predictXGBoost(dataframe, season, round):
     y_train = train.podium
 
     results = performXGBoostTesting(dataframe, scaler, X_train, y_train, season, round)
-    saveDataframeToCSV(pd.DataFrame(results), "DataAnalysisResults/predictionXGBoost.csv")
+    saveDataframeToCSV(pd.DataFrame(results), "predictionXGBoost.csv")
 
 
 def main():
@@ -243,8 +242,8 @@ def main():
     comparisonDict = startClassificationTesting(final_df.copy(), comparisonDict)
     
     comparisonDataframe = pd.DataFrame(comparisonDict).groupby('model')['score'].max()
-    saveDataframeToCSV(pd.DataFrame(comparisonDict), "DataAnalysisResults/predictionComparison.csv")
-    plotBarGraph(pd.DataFrame(comparisonDataframe), "DataAnalysisResults/predictionComparison.png")
+    saveDataframeToCSV(pd.DataFrame(comparisonDict), "predictionComparison.csv")
+    plotBarGraph(pd.DataFrame(comparisonDataframe), "predictionComparison.png")
 
     # predictRace(final_df.copy(), 2022, 16)
     # predictXGBoost(final_df.copy(), 2022, 16)

@@ -1,0 +1,16 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "F1 Predict",
+      "type": "python",
+      "request": "launch",
+      "program": "C:\\Coding\\Python Projects\\ML_Learning\\F1Predict.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
