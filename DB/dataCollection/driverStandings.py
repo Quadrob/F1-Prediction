@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 
 def driverDataCollection(DATABASECONNECTION, rounds):
+    """ This function collects all the driver standing data from Ergast API and creats as well as populates the driver standings database table. """
     # Setup DB config
     databaseCursor = DATABASECONNECTION.cursor()
 
@@ -21,6 +22,8 @@ def driverDataCollection(DATABASECONNECTION, rounds):
             url = 'https://ergast.com/api/f1/{}/{}/driverStandings.json'
             request = requests.get(url.format(rounds[arrayIndex][0], seasonRound))
             json = request.json()
+
+            # TODO I decided not to include driver ratings becuase there are only ratings for recent drivers which will not help with the machine learning model
 
             try:
                 for item in json['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']:
@@ -88,10 +91,11 @@ def driverDataCollection(DATABASECONNECTION, rounds):
 
 # define lookup function to shift points and number of wins from previous rounds to the next round because the points are only awarded after the race
 def lookup (dataframe, driver, columnName):
+    """ A lookup function to shift points and number of wins from previous rounds to the next round because the points are only awarded after the race. """
     dataframe['lookup1'] = dataframe.season.astype(str) + dataframe[driver] + dataframe['round'].astype(str)
     dataframe['lookup2'] = dataframe.season.astype(str) + dataframe[driver] + (dataframe['round']-1).astype(str)
-    new_dattaframe = dataframe.merge(dataframe[['lookup1', columnName]], how = 'left', left_on='lookup2', right_on='lookup1')
-    new_dattaframe.drop(['lookup1_x', 'lookup2', 'lookup1_y'], axis = 1, inplace = True)
-    new_dattaframe.rename(columns = {columnName+'_x': columnName+'_after_race', columnName+'_y': columnName}, inplace = True)
-    new_dattaframe[columnName].fillna(0, inplace = True)
-    return new_dattaframe
+    new_dataframe = dataframe.merge(dataframe[['lookup1', columnName]], how = 'left', left_on='lookup2', right_on='lookup1')
+    new_dataframe.drop(['lookup1_x', 'lookup2', 'lookup1_y'], axis = 1, inplace = True)
+    new_dataframe.rename(columns = {columnName+'_x': columnName+'_after_race', columnName+'_y': columnName}, inplace = True)
+    new_dataframe[columnName].fillna(0, inplace = True)
+    return new_dataframe

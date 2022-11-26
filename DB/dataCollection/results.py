@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 
 def resultsDataCollection(DATABASECONNECTION, rounds):
+    """ This function collects all the results data of each race from Ergast API and creats as well as populates the results database table. """
     # Setup DB config
     databaseCursor = DATABASECONNECTION.cursor()
 

@@ -5,9 +5,10 @@
 
 import requests
 import pandas as pd
-import numpy as np
 
 def raceDataCollection(DATABASECONNECTION):
+    """ This function collects all the race data required by the application from the Ergast API. 
+    It creates the 'races' database table, populates it with all the data, and returns the races dataframe. """
     # Setup DB config
     databaseCursor = DATABASECONNECTION.cursor()
 
@@ -86,12 +87,6 @@ def raceDataCollection(DATABASECONNECTION):
         databaseCursor.close()
         databaseCursor = None
         
-        # append the number of rounds of each season from the races dataframe
-        rounds = []
-        for year in np.array(races.season.unique()):
-            rounds.append([year, list(races[races.season == year]['round'])])
-
-        # return the amount of rounds for each season
-        return rounds
+        return races
     else:
         print("There was an error fetching races data!")
