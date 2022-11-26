@@ -2,8 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-# TODO remove import
-import Database
 
 def qualifyingDataCollection(DATABASECONNECTION):
     """ This function collects all the qualifying data """
@@ -55,12 +53,9 @@ def qualifyingDataCollection(DATABASECONNECTION):
         qualifying_results = pd.concat([qualifying_results, year_dataframe])
 
     # rename dataframe columns
-    # TODO rename car to constructor
     qualifying_results.rename(columns = {'Pos': 'grid', 'Driver': 'driver_name', 'Car': 'car', 'Time': 'qualifying_time'}, inplace = True)
     # drop driver number column
     qualifying_results.drop('No', axis = 1, inplace = True)
-
-    qualifying_results = stringToMilliseconds(qualifying_results)
 
     if (qualifying_results.shape[0] > 0 and qualifying_results.empty != True):
         # Check data
@@ -77,25 +72,3 @@ def qualifyingDataCollection(DATABASECONNECTION):
         
     else:
         print("There was an error fetching qualifying data!")
-
-# A time coverter method to convert the qualifying times to milliseconds
-def stringToMilliseconds(qualifying_results):
-    """"Convert a time string in minutes to a millisecond value."""
-    for index, row in qualifying_results.iterrows():
-        try:
-            timeInMins = str(row['qualifying_time'].value).replace('.', '').replace(':', '.')
-            timeInMilli = round(float(timeInMins) * 60 * 1000)
-            qualifying_results.at[index, 'qualifying_milliseconds'] = timeInMilli
-            print("Added " + str(timeInMilli) + " milliseconds to row: " + str(index) + " that has data: " + str(row))
-        except Exception as e:
-            print("Could not convert time to milliseconds because of: " + str(e))
-            qualifying_results.at[index, 'qualifying_milliseconds'] = None
-            continue
-    return qualifying_results
-
-
-# TODO remove this testing stuff
-Database.connectToDatabase()
-qualifying = pd.read_sql_query('''SELECT * FROM qualifying''', Database.DATABASECONNECTION)
-stringToMilliseconds(qualifying)
-Database.disconnectFromDatabase()

@@ -72,7 +72,7 @@ def resultsDataCollection(DATABASECONNECTION, limit=1000):
                     results['driver'].append(None)
 
                 try:
-                    fullName = str(result['Driver']['givenName']) + " " + str(result['Driver']['familyName'])
+                    fullName = str(result['Driver']['givenName']) + "_" + str(result['Driver']['familyName'])
                     results['driver_full_name'].append(fullName)
                 except:
                     results['driver_full_name'].append(None)
