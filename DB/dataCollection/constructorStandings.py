@@ -1,3 +1,4 @@
+import time
 import requests
 import pandas as pd
 
@@ -6,8 +7,6 @@ def constructorDataCollection(DATABASECONNECTION, rounds):
     """ This function collects all the constructor standing data from Ergast API and creats as well as populates the constructors standings database table. """
     # start from year 1958 because the Constructors championship was only awarded for the first time in 1958 so there is no data prior to that year
     constructor_rounds = rounds[8:]
-    # TODO this needs to be  constructor_rounds = rounds[8:]
-    # constructor_rounds = rounds
     
     # Setup DB config
     databaseCursor = DATABASECONNECTION.cursor()
@@ -24,10 +23,13 @@ def constructorDataCollection(DATABASECONNECTION, rounds):
     for arrayIndex in list(range(len(constructor_rounds))):
         for seasonRound in constructor_rounds[arrayIndex][1]:
         
-            print("Fetching constructor standing data for year: " + str(rounds[arrayIndex][0]) + " round: " + str(seasonRound))
+            print("Fetching constructor standing data for year: " + str(constructor_rounds[arrayIndex][0]) + " round: " + str(seasonRound))
             url = 'https://ergast.com/api/f1/{}/{}/constructorStandings.json'
             request = requests.get(url.format(constructor_rounds[arrayIndex][0], seasonRound))
             json = request.json()
+            
+            # I added this sleep because of the limited amount of requests i can make on this API. I sleep for the same amount as the round i am fetching thus the timer will be longer the further in a season the application gets
+            time.sleep(int(seasonRound) / 2)
 
             try:    
                 for item in json['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']:
@@ -80,6 +82,7 @@ def constructorDataCollection(DATABASECONNECTION, rounds):
     if (constructor_standings.shape[0] > 0 and constructor_standings.empty != True):
         # Check data
         print(constructor_standings.head())
+        print(constructor_standings.tail())
         print(constructor_standings.info())
         print(constructor_standings.describe())
 

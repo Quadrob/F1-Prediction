@@ -1,3 +1,4 @@
+import time
 import requests
 import pandas as pd
 
@@ -22,6 +23,9 @@ def driverDataCollection(DATABASECONNECTION, rounds):
             url = 'https://ergast.com/api/f1/{}/{}/driverStandings.json'
             request = requests.get(url.format(rounds[arrayIndex][0], seasonRound))
             json = request.json()
+
+            # I added this sleep because of the limited amount of requests i can make on this API. I sleep for the same amount as the round i am fetching thus the timer will be longer the further in a season the application gets
+            time.sleep(int(seasonRound) / 2)
 
             # TODO I decided not to include driver ratings becuase there are only ratings for recent drivers which will not help with the machine learning model
 
@@ -76,6 +80,7 @@ def driverDataCollection(DATABASECONNECTION, rounds):
     if (driver_standings.shape[0] > 0 and driver_standings.empty != True):
         # Check data
         print(driver_standings.head())
+        print(driver_standings.tail())
         print(driver_standings.info())
         print(driver_standings.describe())
 

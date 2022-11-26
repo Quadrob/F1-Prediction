@@ -3,6 +3,7 @@ import os
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], 'dataCollection'))
 import numpy
+import pandas as pd
 
 import constructorStandings, driverStandings, qualifying, races, results, weather
 import Database
@@ -10,11 +11,15 @@ import Database
 
 def dataCollection():
     """ This is the main function to fetch all the required data for the application. """
+    print("Be prepared, the data collection can take really long due to the amount of data that needs to be collected and formatted!")
+    
     # Setup DB Connection
     Database.connectToDatabase()
 
     # Fetch and populate races table
-    races_dataframe = races.raceDataCollection(Database.DATABASECONNECTION)
+    # TODO this should not be commented out
+    # races.raceDataCollection(Database.DATABASECONNECTION)
+    races_dataframe = pd.read_sql_query('''SELECT * FROM races''', Database.DATABASECONNECTION)
     
     # append the number of rounds of each season from the races dataframe
     rounds = []
@@ -22,25 +27,28 @@ def dataCollection():
         rounds.append([year, list(races_dataframe[races_dataframe.season == year]['round'])])
 
     # Fetch and populate results table
-    results.resultsDataCollection(Database.DATABASECONNECTION, rounds)
+    # TODO this should not be commented out
+    # results.resultsDataCollection(Database.DATABASECONNECTION)
     
     # Fetch and populate driver standings table
-    driverStandings.driverDataCollection(Database.DATABASECONNECTION, rounds)
+    # TODO this should not be commented out
+    # driverStandings.driverDataCollection(Database.DATABASECONNECTION, rounds)
     
     # Fetch and populate constructor standings table
-    constructorStandings.constructorDataCollection(Database.DATABASECONNECTION, rounds)
+    # TODO this should not be commented out
+    # constructorStandings.constructorDataCollection(Database.DATABASECONNECTION, rounds)
     
     # Fetch and populate qualifying table
-    qualifying.qualifyingDataCollection(Database.DATABASECONNECTION)
+    # TODO this should not be commented out
+    # qualifying.qualifyingDataCollection(Database.DATABASECONNECTION)
     
     # Fetch and populate weather table
-    weather.weatherDataCollection(Database.DATABASECONNECTION, races_dataframe)
+    # TODO this should not be commented out
+    # weather.weatherDataCollection(Database.DATABASECONNECTION, races_dataframe)
 
     # Close and empty DB connection
     Database.disconnectFromDatabase()
 
 
-# temp run file
+# TODO delete temp run file
 dataCollection()
-# Temp 
-# pd.read_sql('select * from races;', DATABASECONNECTION)

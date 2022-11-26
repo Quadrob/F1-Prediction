@@ -9,7 +9,7 @@ def weatherDataCollection(DATABASECONNECTION, races):
     # Setup DB config
     databaseCursor = DATABASECONNECTION.cursor()
 
-    weather = races.iloc[:,[0,1,2]]
+    weather = races.iloc[:,[0,1,2,3]]
     info = []
     
     # create chrome driver
@@ -77,6 +77,7 @@ def weatherDataCollection(DATABASECONNECTION, races):
     if (weather_info.shape[0] > 0 and weather_info.empty != True):
         # Check data
         print(weather_info.head())
+        print(weather_info.tail())
         print(weather_info.info())
         print(weather_info.describe())
 
@@ -98,9 +99,9 @@ def configChromeDriver():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    # chromeDriver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
-    # TODO Use the below chrome driver for running in the Replit host enviroment
-    chromeDriver = webdriver.Chrome(options=chrome_options)
+    chromeDriver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    # TODO Use the below chrome driver for running in the Replit host enviroment not the above one
+    # chromeDriver = webdriver.Chrome(options=chrome_options)
     print('Creating chrome driver!')
     return chromeDriver
 

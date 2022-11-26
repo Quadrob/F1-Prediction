@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
+# TODO remove import
+import Database
+
 def qualifyingDataCollection(DATABASECONNECTION):
     """ This function collects all the qualifying data """
     # Setup DB config
@@ -11,7 +14,7 @@ def qualifyingDataCollection(DATABASECONNECTION):
 
     # Qualifying times are only available from 1983 on the f1 official website
     # TODO should be 1983, 2023
-    for year in list(range(2022,2023)):
+    for year in list(range(1983,2023)):
         url = 'https://www.formula1.com/en/results.html/{}/races.html'
         request = requests.get(url.format(year))
         soup = BeautifulSoup(request.text, 'html.parser')
@@ -56,11 +59,13 @@ def qualifyingDataCollection(DATABASECONNECTION):
     qualifying_results.rename(columns = {'Pos': 'grid', 'Driver': 'driver_name', 'Car': 'car', 'Time': 'qualifying_time'}, inplace = True)
     # drop driver number column
     qualifying_results.drop('No', axis = 1, inplace = True)
-    # TODO maybe drop Car/constructor_name from dataframe
+
+    qualifying_results = stringToMilliseconds(qualifying_results)
 
     if (qualifying_results.shape[0] > 0 and qualifying_results.empty != True):
         # Check data
         print(qualifying_results.head())
+        print(qualifying_results.tail())
         print(qualifying_results.info())
         print(qualifying_results.describe())
 
@@ -73,6 +78,24 @@ def qualifyingDataCollection(DATABASECONNECTION):
     else:
         print("There was an error fetching qualifying data!")
 
-# TODO write a time coverter method to cconvert the qualifying times to milliseconds
-# timeInMins = str(item['FastestLap']['Time']['time']).replace('.', '').replace(':', '.')
-# timeInMilli = round(float(timeInMins) * 60 * 1000)
+# A time coverter method to convert the qualifying times to milliseconds
+def stringToMilliseconds(qualifying_results):
+    """"Convert a time string in minutes to a millisecond value."""
+    for index, row in qualifying_results.iterrows():
+        try:
+            timeInMins = str(row['qualifying_time'].value).replace('.', '').replace(':', '.')
+            timeInMilli = round(float(timeInMins) * 60 * 1000)
+            qualifying_results.at[index, 'qualifying_milliseconds'] = timeInMilli
+            print("Added " + str(timeInMilli) + " milliseconds to row: " + str(index) + " that has data: " + str(row))
+        except Exception as e:
+            print("Could not convert time to milliseconds because of: " + str(e))
+            qualifying_results.at[index, 'qualifying_milliseconds'] = None
+            continue
+    return qualifying_results
+
+
+# TODO remove this testing stuff
+Database.connectToDatabase()
+qualifying = pd.read_sql_query('''SELECT * FROM qualifying''', Database.DATABASECONNECTION)
+stringToMilliseconds(qualifying)
+Database.disconnectFromDatabase()

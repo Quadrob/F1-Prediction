@@ -9,3 +9,5 @@ pip install -r requirements.txt
 
 Notes: https://www.javatpoint.com/how-to-create-requirements-txt-file-in-python
 pipreqs ./ --force
+
+py -3.7 -m pip install
