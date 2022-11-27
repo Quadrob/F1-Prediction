@@ -15,10 +15,10 @@ class DriverTeamPairingPage(tk.Frame):
         self.pairingMenuCanvas= ctk.CTkCanvas(self, width= settings.WIDTH, height= settings.HEIGHT, bd=0, highlightthickness=0)
         self.pairingMenuCanvas.create_image( 0, 0, image = self.pairingMenubgImage, anchor = "nw")        
         
-        driverButton = ctk.CTkButton(self.pairingMenuCanvas, text="Best Team for a Driver", width=360, height=50, border_width=0, corner_radius=2, bg_color="#132236", text_font=('Calibri', 16, 'bold'), hover=True, command=lambda: controller.show_frame("DriverPage"))
+        driverButton = ctk.CTkButton(self.pairingMenuCanvas, text="Best Team for a Driver", width=360, height=50, border_width=0, corner_radius=2, bg_color="#132236", text_font=('Calibri', 16, 'bold'), hover=True, command=lambda: controller.show_frame("DriverPairing"))
         driverButton.place(x=70, y=130)
         
-        teamButton = ctk.CTkButton(self.pairingMenuCanvas, text="Best Driver for a Team", width=360, height=50, border_width=0, corner_radius=2, bg_color="#132236", text_font=('Calibri', 16, 'bold'), hover=True, command=lambda: controller.show_frame("ConstructorPage"))
+        teamButton = ctk.CTkButton(self.pairingMenuCanvas, text="Best Driver for a Team", width=360, height=50, border_width=0, corner_radius=2, bg_color="#132236", text_font=('Calibri', 16, 'bold'), hover=True, command=lambda: controller.show_frame("ConstructorPairing"))
         teamButton.place(x=70, y=200)
         
         mainMenuButton = ctk.CTkButton(self.pairingMenuCanvas, text="Main Menu", width=360, height=50, border_width=0, corner_radius=2, fg_color="#d90000", bg_color="#132236", text_font=('Calibri', 16, 'bold'), hover=True, hover_color="#820903", command=lambda: controller.show_frame("MenuPage"))

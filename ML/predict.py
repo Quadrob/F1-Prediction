@@ -184,3 +184,32 @@ def calculateQualifyingTimeDifferenceFromResults(finalDataframe):
     finalDataframe['results_time'] = finalDataframe.results_time.div(10).round(3)
     finalDataframe.drop('results_diff', axis = 1, inplace = True)
     return finalDataframe
+
+
+def predictDriverPairing(queue):
+    np.set_printoptions(precision=5)
+    scaler = StandardScaler()
+    dataframe = settings.FINALDATAFRAME.copy()
+    train = pd.DataFrame()
+    for season in dataframe.season.unique():
+        newDataframe = dataframe.loc[dataframe.season == season]
+        train = pd.concat([train, newDataframe.query('round == round.max()')])
+        
+    # Prepare training data for model
+    train = emptyDriverDataframe(train)
+    X_train = train.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'constructor_wins', 'constructor_points', 'driver_standings_pos', 'raceID'], axis = 1)
+    X_train = pd.DataFrame(scaler.fit_transform(X_train), columns = X_train.columns)
+    y_train = train.driver_standings_pos
+
+    # Prepare prediction data for model
+    test = train.loc[train['driver'].isin(data.getCurrentDrivers())]
+    test = test.drop_duplicates(subset=['driver'], keep='last')
+    test = emptyDriverPairing(test)
+    X_test = test.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'constructor_wins', 'constructor_points', 'driver_standings_pos', 'raceID'], axis = 1)
+    data.saveDataframeToCSV(X_test, 'ML/training.csv')
+    X_test = pd.DataFrame(scaler.transform(X_test), columns = X_test.columns)
+    y_test = test['driver']
+    
+    results = performXGBoostDriver(X_train, y_train, X_test, y_test)
+    queue.put(results)
+

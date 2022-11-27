@@ -13,24 +13,8 @@ from Pages.ConstructorMenu import ConstructorPage
 from Pages.PairingMenu import DriverTeamPairingPage
 from Pages.DriverPredict import *
 from Pages.ConstructorPredict import *
+from Pages.PairingPredict import *
 from threading import Thread
-
-
-# TODO things to do better:
-# Get driver and constructor total points
-# Get driver and constructor total wins and podiums and poles
-# Improve UI for prediction pages
-# Better fine tune xgboost with data
-# Better analise the data
-# Improve data collection automatically
-# Divide the code better
-# Plan ahead better and watch project time
-# Database connection and caching
-# Impleement more threading for speed
-# Change menu structure to switch pages easier
-# Round corner buttons
-# Wasted space
-# Wiping out of options because i cant reuse them
 
 
 def splashLoader():    
@@ -83,7 +67,7 @@ class App(tk.Tk):
         
         for Frame in (MenuPage, DriverPage, ConstructorPage, DriverTeamPairingPage, 
                       DriverQualifying, DriverRace, DriverChampionship, ConstructorQualifying, 
-                      ConstructorRace, ConstructorChampionship):
+                      ConstructorRace, ConstructorChampionship, ConstructorPairing, DriverPairing):
             page_name = Frame.__name__
             frame = Frame(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -91,7 +75,7 @@ class App(tk.Tk):
             if 'MenuPage' in str(Frame):
                 self.show_frame("MenuPage")
 
-        self.show_frame("MenuPage") 
+        self.show_frame("DriverPairing") 
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -100,7 +84,6 @@ class App(tk.Tk):
 
     def exitApp(self):
         self.destroy()
-
 
 
 if __name__ == "__main__":

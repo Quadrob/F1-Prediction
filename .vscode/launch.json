@@ -8,7 +8,7 @@
       "name": "F1 Predict",
       "type": "python",
       "request": "launch",
-      "program": "C:\\Coding\\Python Projects\\ML_Learning\\F1Predict.py",
+      "program": "C:\\Coding\\Python Projects\\F1-Prediction\\F1Predict.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }
