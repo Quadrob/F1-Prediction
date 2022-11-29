@@ -141,7 +141,7 @@ def submitChampionship(canvas, constructorVar, seasonVar, pointsVar, winsVar):
         Thread(target=predict.predictConstructorChampion(q, constructor, season, points, wins), daemon=True).start()
         results = q.get()
         results = pd.DataFrame(results)
-        raceResults = results[(results['driver'] == str(constructor))]
+        raceResults = results[(results['constructor'] == str(constructor))]
         loadingLabel.destroy()
 
         headingLabel = ctk.CTkLabel(canvas, text="Results of Predicted Championship:", fg_color='#035b99', text_font=('Calibri', 24, 'bold'))

@@ -84,7 +84,6 @@ def predictDriverChampion(queue, driver, season, points, wins):
     test = test.drop_duplicates(subset=['driver'], keep='last')
     test = fillDriverChampionship(test, driver, season, points, wins)
     X_test = test.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'constructor_wins', 'constructor_points', 'driver_standings_pos', 'raceID'], axis = 1)
-    data.saveDataframeToCSV(X_test, 'ML/training.csv')
     X_test = pd.DataFrame(scaler.transform(X_test), columns = X_test.columns)
     y_test = test['driver']
     
@@ -169,11 +168,10 @@ def predictConstructorChampion(queue, constructor, season, points, wins):
     test = test.drop_duplicates(subset=['constructor'], keep='last')
     test = fillConstructorChampionship(test, constructor, season, points, wins)
     X_test = test.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'driver_wins', 'driver_points', 'driver_standings_pos', 'raceID'], axis = 1)
-    data.saveDataframeToCSV(X_test, 'ML/training.csv')
     X_test = pd.DataFrame(scaler.transform(X_test), columns = X_test.columns)
     y_test = test['constructor']
     
-    results = performXGBoostDriver(X_train, y_train, X_test, y_test)
+    results = performXGBoostConstructor(X_train, y_train, X_test, y_test)
     queue.put(results)
 
 
@@ -204,12 +202,47 @@ def predictDriverPairing(queue):
     # Prepare prediction data for model
     test = train.loc[train['driver'].isin(data.getCurrentDrivers())]
     test = test.drop_duplicates(subset=['driver'], keep='last')
-    test = emptyDriverPairing(test)
+    test = emptyDriverDataframe(test)
     X_test = test.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'constructor_wins', 'constructor_points', 'driver_standings_pos', 'raceID'], axis = 1)
-    data.saveDataframeToCSV(X_test, 'ML/training.csv')
     X_test = pd.DataFrame(scaler.transform(X_test), columns = X_test.columns)
     y_test = test['driver']
     
     results = performXGBoostDriver(X_train, y_train, X_test, y_test)
     queue.put(results)
+
+
+def predictConstructorPairing(queue):    
+    np.set_printoptions(precision=5)
+    scaler = StandardScaler()
+    dataframe = settings.FINALDATAFRAME.copy()
+    train = pd.DataFrame()
+    for season in dataframe.season.unique():
+        newDataframe = dataframe.loc[dataframe.season == season]
+        train = pd.concat([train, newDataframe.query('round == round.max()')])
+        
+    # Prepare training data for model
+    train = emptyConstructorDataframe(train)
+    X_train = train.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'driver_wins', 'driver_points', 'driver_standings_pos', 'raceID'], axis = 1)
+    X_train = pd.DataFrame(scaler.fit_transform(X_train), columns = X_train.columns)
+    y_train = train.constructor_standings_pos
+
+    # Prepare prediction data for model
+    test = train.loc[train['constructor'].isin(data.getCurrentConstructors())]
+    test = test.drop_duplicates(subset=['constructor'], keep='last')
+    test = emptyConstructorDataframe(test)
+    X_test = test.drop(['round', 'driver', 'grid', 'podium', 'fastest_lap_rank', 'constructor', 'constructor_standings_pos', 'driver_wins', 'driver_points', 'driver_standings_pos', 'raceID'], axis = 1)
+    X_test = pd.DataFrame(scaler.transform(X_test), columns = X_test.columns)
+    y_test = test['constructor']
+    
+    results = performXGBoostConstructor(X_train, y_train, X_test, y_test)
+    results = pd.DataFrame(results)
+    completeResults = pd.DataFrame()
+    for constructor in results['constructor']:
+        newDataframe = results.loc[results['constructor'] == constructor]
+        completeResults = pd.concat([completeResults, newDataframe], ignore_index=True)
+        completeResults = pd.concat([completeResults, newDataframe], ignore_index=True)
+    queue.put(completeResults)
+
+
+
 

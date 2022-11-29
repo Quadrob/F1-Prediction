@@ -91,7 +91,8 @@ def fillConstructorChampionship(dataframe, constructor, season, points, wins):
     dataframe.loc[dataframe['constructor'] == constructor, ['constructor_points']] = points
     dataframe.loc[dataframe['constructor'] == constructor, ['constructor_wins']] = wins
     return dataframe
-    
+
+
 
 
 

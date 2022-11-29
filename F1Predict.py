@@ -71,15 +71,15 @@ class App(tk.Tk):
             page_name = Frame.__name__
             frame = Frame(parent=container, controller=self)
             self.frames[page_name] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
             if 'MenuPage' in str(Frame):
                 self.show_frame("MenuPage")
 
-        self.show_frame("DriverPairing") 
+        self.show_frame("MenuPage") 
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]
+        frame.grid(row=0, column=0, sticky="nsew")
         frame.tkraise()
 
     def exitApp(self):
