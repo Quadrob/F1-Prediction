@@ -1,5 +1,6 @@
 import DB.Database as Database
 import DB.dataPreperation as data
+import sys
 import pandas as pd
 import numpy as np
 import tkinter as tk
@@ -87,14 +88,21 @@ class App(tk.Tk):
 
 
 if __name__ == "__main__":
-    # Set global configurations
-    pd.set_option('max_columns', None)
-    np.set_printoptions(precision=5)
-    ctk.set_appearance_mode("dark")
-    ctk.set_default_color_theme("blue")
-    
-    app = App()
-    app.mainloop()
-    
-    # Close db connections
-    Database.disconnectFromDatabase()
+    try:
+        # Set global configurations
+        pd.set_option('max_columns', None)
+        np.set_printoptions(precision=5)
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("blue")
+        
+        app = App()
+        app.mainloop()
+        
+    except Exception as e:
+        print("Oops!", sys.exc_info()[0], "occurred.")
+        print("ErrorMessage: " + str(e))
+        print("StackTrace: " + str(e))
+        input()
+    finally:
+        # Close db connections
+        Database.disconnectFromDatabase()
