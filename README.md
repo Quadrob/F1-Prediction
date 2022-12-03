@@ -72,7 +72,8 @@ For this school project, I proposed creating a machine learning application that
 1.  As a general-purpose programming language, Python is designed to be used in many ways with many powerful packages that add even more functionality. Python has a standard package manager, called `pip`, which allows you to install and manage packages that aren’t part of the Python standard library. It should have been installed with your python installation in the previous step.
 2.  To install all the required packages necessary for running this project you can open up a command line terminal in the root folder of where you cloned the project and execute the following command:
 ```cmd
-    py -3.7 -m pip install -r requirements.txt
+
+    py -3.7 -Im pip install -r requirements.txt
 ```
 >***IMPORTANT: If the pip install command fails then try reopening the command lind terminal as administrator.***
 

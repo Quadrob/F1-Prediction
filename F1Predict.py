@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore", "(?s).*MATPLOTLIBDATA.*", category=UserWarning)
+
 import DB.Database as Database
 import DB.dataPreperation as data
 import sys
