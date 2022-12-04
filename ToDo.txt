@@ -1,0 +1,8 @@
+
+# Improve project planning and time managment ie: be more realistic with estimates
+# Spend more time analysing the dataset to better understand the relationships
+
+# Fix getting started doc page: links + names of presentation and report in note section
+
+usage
+troubleshooting

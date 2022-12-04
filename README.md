@@ -146,6 +146,11 @@ During this project I have been noting down things I believe could be done bette
 # Add more options the user can set to perform the prediction ie: tires, wind, practice 
 # Allow the user to adjust the screen size to their prefrence
 # The picture quality of some images needs to be improved
+# Display drivers full name
+# Display constructors full name
+# Make season dropdown a number box with a max and min instead
+# Make driver dropdown searchable
+# Make constructor dropdown searchable
 
 # Improvements to backend:
 # =========================================
@@ -153,12 +158,19 @@ During this project I have been noting down things I believe could be done bette
 # Divide the source code into smaller files ie: each class should be in its own file
 # Use a single session Database connection 
 # Implement more processes within its own thread to improve speed
+# Make predictions with drivers from the specific season and not just current drivers
+# Not every option needs a value to perform the prediction (exclude empty options from prediction)
 
 # Improvements to other aspects:
 # =========================================
-# Build a .exe application of the project for easier installation, setup, and execution of the application
+# Build an .exe application of the project for easier installation, setup, and execution of the application
 # Modify the project to allow it to run on replit editor online
 # Make the project compatible with higher python versions
+# Make wording consistent ie: use 'constructor' everywhere and not 'team' in some places and 'circuit' instead of 'track'
+# Allow selection of any driver that has participated in an F1 race
+# Allow selection of any constructor that has participated in an F1 race
+# Menu option to browse the dataset or a simplified version of the database
+# Improve Naming of the Pairing implemention
 ```
 
 ---

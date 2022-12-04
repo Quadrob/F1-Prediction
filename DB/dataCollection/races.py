@@ -1,4 +1,3 @@
-from flask import request_finished
 import requests
 import pandas as pd
 

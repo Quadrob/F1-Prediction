@@ -45,4 +45,4 @@ def dataCollection():
 
 
 # TODO delete temp run file
-# dataCollection()
+dataCollection()

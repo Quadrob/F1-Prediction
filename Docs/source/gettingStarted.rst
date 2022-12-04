@@ -1,0 +1,74 @@
+.. _gettingStarted:
+
+Getting started
+===============
+Welcome to the 'Getting Started Page' of F1 Predict. If you have never used the application before then this page will provide you with a brief guide of how to use the application. If you require more specific/detailed information regarding the application, please feel free to either use the :ref:`search` functionality to look for key words or look through other pages of this system document.
+
+Clone Repository
+----------------
+
+*   To begin using the application first you will need to clone the repository to your local machine
+
+
+Installing
+----------
+
+*   Before you can run this application you need to install python 3.7 (`Download Python <https://www.python.org/downloads/release/python-379/>`_)
+*   Next you need to install all required libraries found in the `Requirments.txt <../../../requirements.txt>`_ file in the root directory of this repository
+
+Startup
+-------
+
+*   To start the application simply open the `Start-F1-Predict.bat <../../../>`_ file in the root of the application and you should see the slash screen loading
+
+Pages
+-----
+There are are 8 different pages each with their own purpose. Below is a quick explanation of each:
+
+-   Main Menu: Has 4 buttons
+
+    -   Predict Driver: This will take you to the drivers menu which has 4 buttons
+
+        -   **Predict Qualification**: This page will allow the user to predict the qualifying position of a driver depending on the options selected by the user
+        -   **Predict Race**: This page will allow the user to predict the race finishing position of a driver depending on the options selected by the user
+        -   **Predict Driver Championship**: This page will allow the user to predict the championship finishing position of a driver depending on the options selected by the user
+
+    -   Predict Constructors: This will take you to the drivers menu which has 4 buttons
+    
+        -   **Predict Qualification**: This page will allow the user to predict the highest qualifying position of a constructor depending on the options selected by the user
+        -   **Predict Race**: This page will allow the user to predict the highest race finishing position of a constructor on the options selected by the user
+        -   **Predict Constructor Championship**: This page will allow the user to predict the championship finishing position of a constructor depending on the options selected by the user
+    
+    -   Best Driver Team Pairing: This will take you to the pairing menu which has 3 buttons
+    
+        -   **Best Team For A Driver**: This page will allow the user to see the suggested best constructor for a driver
+        -   **Best Drivers For A Team**: This page will allow the user to see the two suggested best drivers for a constructor
+        
+    -   Quit: This will close the application
+
+Options
+-------
+Each prediction page has special options the user can choose to influence a prediction result. **Each option has to have a value to make a prediction.** Below is an explanation of each option:
+
+*   Season Dropdown: This dropdown allows the user to select an F1 season ranging from 1950 to 2050
+*   Driver Dropdown: This dropdown allows the user to select a driver from the current divers who have participated in at least one race in the latest season
+*   Curcit Dropdown: This dropdown allows the user to select a circuit that F1 has participated at least once
+*   Weather Dropdown: This dropdown allows the user to select a weather condition from Warm, Cold, Dry, Wet, Cloudy
+*   Constructor Dropdown: This dropdown allows the user to select a constructor from the current constructors who have participated in at least one race in the latest season
+*   Points Slider: This allows the user to select a specific number of points
+*   Wins Slider: This allows the user to select a specific number of wins
+
+Predictions
+-----------
+Once the user has selected a value for each option and clicks the 'Predict Result' button the appliction will make the prediction and display the results to the right side of the window.
+
+.. figure:: /images/results.jpg
+   :alt: example of a prediction result
+   :align: center
+    
+   *Example of a prediction result*
+
+Note
+----
+If the documentation does not contain the information you are searching for you may cchoose to look at the `README <../../../README.md>`_ file located in the root directory of the F1 Predict repository. In addition, feel free to look through my `project presentation <../../../>`_ or `project report <../../../>`_ also located in the root directory of this respository.
+
