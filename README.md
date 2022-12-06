@@ -3,6 +3,7 @@
 
 ## Table Of Contents
 -   [Overview](#overview)
+-   [QuickStart](#quickstart)
 -   [Compatibility](#compatibility)
 -   [Installation Instructions](#installation-instructions)
 -   [Startup Instructions](#startup-instructions)
@@ -16,6 +17,15 @@
 
 ## Overview
 For this school project, I proposed creating a machine learning application that would designed to predict outcomes in a sporting spectacle. I decided to focus the project on motor vehicle racing, more specifically Formal 1, which is the pinnacle of motorsports and is commonly referred to as F1. This F1 prediction application is able to predict qualifiction, race, and championship results for both a driver as well as a constructor. In addition, it pridicts the best constructor for a driver or the best two drivers for a constructor. It leverages data analytics to predict future results, taking into consideration the driver performance metrics, constructor (team) performance metrics, and external factors that impact the resulting outcome. 
+
+---
+
+## QuickStart
+### Open Official F1-Predict Documentation
+*   Click on `Open-F1-Predict-Documentation.bat` in the root directory of the project to open the official docs.
+
+### Start F1-Predict Application
+*   Click on `Start-F1-Predict.bat` in the root directory of the project to open the F1-Predict application.
 
 ---
 
