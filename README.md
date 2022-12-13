@@ -123,7 +123,7 @@ selenium
 webdriver_manager 
 ```
 
-## Machine Models Used
+## Machine Learning Models Used
 ```python
 Logistic Regression
 XGBoost

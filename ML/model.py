@@ -43,7 +43,6 @@ def performLinearRegressionDriver(X_train, y_train, X_test, y_test):
 
     return prediction_df
 
-
 def performLinearRegressionConstructor(X_train, y_train, X_test, y_test):
     model = LinearRegression(fit_intercept = True)
     model.fit(X_train, y_train)
