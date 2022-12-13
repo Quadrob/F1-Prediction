@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Troubleshooting &#8212; F1 Predict v0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic_mod.css?v=0.7.0-1" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/petite-vue.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Requirements" href="requirements.html" />
+    <link rel="prev" title="Developing" href="develop.html" /> 
+  </head><body data-dark_mode_code_blocks="true">
+
+<div id="top_nav">
+    
+
+    <nav>
+        
+            
+        
+
+        <p id="toggle_sidebar">
+            <a href="#" title="Toggle sidebar">|||</a>
+        </p>
+        <h1><a href="index.html" title="Go to homepage">F1 Predict v0.0.1 documentation</a></h1>
+
+        <a id="mode_toggle" href="#" @click.prevent="handleClick" :title="mode">
+    <template v-if="mode == 'light'">
+        <svg width="100%" height="100%" viewBox="0 0 79 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g id="mode_light"><rect id="Bounds" x="0" y="-0" width="78.623" height="79.049" style="fill:none;"/><circle cx="39.311" cy="39.524" r="15.734" style="fill:#fff;"/><g id="beams"><g id="beam"><path id="beam1" serif:id="beam" d="M44.212,4.901c0,-2.705 -2.196,-4.901 -4.901,-4.901c-2.704,-0 -4.9,2.196 -4.9,4.901l-0,9.614c-0,2.705 2.196,4.901 4.9,4.901c2.705,0 4.901,-2.196 4.901,-4.901l0,-9.614Z" style="fill:#fff;"/></g><g id="beam2" serif:id="beam"><path id="beam3" serif:id="beam" d="M67.48,18.073c1.913,-1.912 1.913,-5.018 0,-6.931c-1.912,-1.912 -5.018,-1.912 -6.931,0l-6.798,6.799c-1.912,1.912 -1.912,5.018 0,6.931c1.913,1.912 5.018,1.912 6.931,-0l6.798,-6.799Z" style="fill:#fff;"/></g><g id="beam4" serif:id="beam"><path id="beam5" serif:id="beam" d="M25.728,61.108c1.912,-1.913 1.912,-5.018 -0,-6.931c-1.913,-1.913 -5.019,-1.913 -6.931,-0l-6.799,6.798c-1.912,1.913 -1.912,5.019 0,6.931c1.913,1.913 5.019,1.913 6.931,0l6.799,-6.798Z" style="fill:#fff;"/></g><g id="beam6" serif:id="beam"><path id="beam7" serif:id="beam" d="M60.682,54.177c-1.913,-1.913 -5.018,-1.913 -6.931,-0c-1.912,1.913 -1.912,5.018 0,6.931l6.798,6.798c1.913,1.913 5.019,1.913 6.931,0c1.913,-1.912 1.913,-5.018 0,-6.931l-6.798,-6.798Z" style="fill:#fff;"/></g><g id="beam8" serif:id="beam"><path id="beam9" serif:id="beam" d="M4.901,34.623c-2.705,0 -4.901,2.196 -4.901,4.901c0,2.705 2.196,4.901 4.901,4.901l9.614,0c2.705,0 4.901,-2.196 4.901,-4.901c0,-2.705 -2.196,-4.901 -4.901,-4.901l-9.614,0Z" style="fill:#fff;"/></g><g id="beam10" serif:id="beam"><path id="beam11" serif:id="beam" d="M44.212,64.534c0,-2.705 -2.196,-4.901 -4.901,-4.901c-2.704,-0 -4.9,2.196 -4.9,4.901l-0,9.614c-0,2.705 2.196,4.901 4.9,4.901c2.705,-0 4.901,-2.196 4.901,-4.901l0,-9.614Z" style="fill:#fff;"/></g><g id="beam12" serif:id="beam"><path id="beam13" serif:id="beam" d="M18.929,11.142c-1.912,-1.912 -5.018,-1.912 -6.931,0c-1.912,1.913 -1.912,5.019 0,6.931l6.799,6.799c1.912,1.912 5.018,1.912 6.931,-0c1.912,-1.913 1.912,-5.019 -0,-6.931l-6.799,-6.799Z" style="fill:#fff;"/></g><g id="beam14" serif:id="beam"><path id="beam15" serif:id="beam" d="M64.108,34.623c-2.705,0 -4.901,2.196 -4.901,4.901c-0,2.705 2.196,4.901 4.901,4.901l9.614,0c2.705,0 4.901,-2.196 4.901,-4.901c-0,-2.705 -2.196,-4.901 -4.901,-4.901l-9.614,0Z" style="fill:#fff;"/></g></g></g></svg>
+    </template>
+
+    <template v-if="mode == 'dark'">
+        <svg width="100%" height="100%" viewBox="0 0 79 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g id="mode_dark"><rect id="Bounds" x="0" y="-0" width="78.623" height="79.049" style="fill:none;"/><circle cx="39.311" cy="39.524" r="15.734" style="fill:#fff;"/><g id="beams"><g id="beam"><path id="beam1" serif:id="beam" d="M44.212,14.515c0,-2.705 -2.196,-4.901 -4.901,-4.901c-2.704,0 -4.901,2.196 -4.901,4.901c0,2.705 2.197,4.901 4.901,4.901c2.705,0 4.901,-2.196 4.901,-4.901Z" style="fill:#fff;"/></g><g id="beam2" serif:id="beam"><path id="beam3" serif:id="beam" d="M60.662,24.892c1.902,-1.902 1.902,-4.99 0,-6.892l-0.04,-0.039c-1.901,-1.902 -4.989,-1.902 -6.891,-0c-1.901,1.901 -1.901,4.989 0,6.891l0.04,0.04c1.902,1.901 4.989,1.901 6.891,-0Z" style="fill:#fff;"/></g><g id="beam4" serif:id="beam"><path id="beam5" serif:id="beam" d="M25.732,61.103c1.91,-1.91 1.91,-5.011 0,-6.921l-0.009,-0.01c-1.91,-1.91 -5.012,-1.91 -6.921,-0c-1.91,1.91 -1.91,5.011 -0,6.921l0.01,0.01c1.909,1.91 5.011,1.91 6.92,-0Z" style="fill:#fff;"/></g><g id="beam6" serif:id="beam"><path id="beam7" serif:id="beam" d="M60.672,54.167c-1.907,-1.907 -5.004,-1.907 -6.911,0l-0.02,0.02c-1.907,1.907 -1.907,5.004 0,6.911c1.907,1.907 5.004,1.907 6.911,-0l0.02,-0.02c1.907,-1.907 1.907,-5.004 0,-6.911Z" style="fill:#fff;"/></g><g id="beam8" serif:id="beam"><path id="beam9" serif:id="beam" d="M14.52,34.623c-2.702,0 -4.896,2.194 -4.896,4.896l0,0.01c0,2.702 2.194,4.896 4.896,4.896c2.702,0 4.896,-2.194 4.896,-4.896l-0,-0.01c-0,-2.702 -2.194,-4.896 -4.896,-4.896Z" style="fill:#fff;"/></g><g id="beam10" serif:id="beam"><path id="beam11" serif:id="beam" d="M44.212,64.534c0,-2.705 -2.196,-4.901 -4.901,-4.901c-2.704,-0 -4.901,2.196 -4.901,4.901c0,2.704 2.197,4.9 4.901,4.9c2.705,0 4.901,-2.196 4.901,-4.9Z" style="fill:#fff;"/></g><g id="beam12" serif:id="beam"><path id="beam13" serif:id="beam" d="M25.73,17.943c-1.911,-1.911 -5.015,-1.911 -6.926,0l-0.005,0.005c-1.911,1.911 -1.911,5.015 0,6.926c1.911,1.911 5.015,1.911 6.926,0l0.005,-0.005c1.911,-1.911 1.911,-5.014 -0,-6.926Z" style="fill:#fff;"/></g><g id="beam14" serif:id="beam"><path id="beam15" serif:id="beam" d="M64.098,34.623c-2.699,0 -4.891,2.192 -4.891,4.892l-0,0.019c-0,2.699 2.192,4.891 4.891,4.891c2.7,0 4.892,-2.192 4.892,-4.891l0,-0.019c0,-2.7 -2.192,-4.892 -4.892,-4.892Z" style="fill:#fff;"/></g></g></g></svg>
+    </template>
+
+    <template v-if="mode == 'darkest'">
+        <svg width="100%" height="100%" viewBox="0 0 79 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g id="mode_darkest"><rect id="Bounds" x="0" y="-0" width="78.623" height="79.049" style="fill:none;"/><path d="M39.315,23.791c8.684,-0 15.734,7.05 15.734,15.733c0,8.684 -7.05,15.734 -15.734,15.734c-8.683,0 -15.733,-7.05 -15.733,-15.734c-0,-8.683 7.05,-15.733 15.733,-15.733Zm0,4.737c6.069,0 10.997,4.927 10.997,10.996c-0,6.069 -4.928,10.996 -10.997,10.996c-6.068,0 -10.996,-4.927 -10.996,-10.996c0,-6.069 4.928,-10.996 10.996,-10.996Z" style="fill:#fff;"/><g id="beams"><g id="beam"><path id="beam1" serif:id="beam" d="M44.216,14.515c0,-2.705 -2.196,-4.901 -4.901,-4.901c-2.704,0 -4.9,2.196 -4.9,4.901c-0,2.705 2.196,4.901 4.9,4.901c2.705,0 4.901,-2.196 4.901,-4.901Z" style="fill:#fff;"/></g><g id="beam2" serif:id="beam"><path id="beam3" serif:id="beam" d="M60.666,24.892c1.902,-1.902 1.902,-4.99 0,-6.892l-0.04,-0.039c-1.901,-1.902 -4.989,-1.902 -6.891,-0c-1.901,1.901 -1.901,4.989 0,6.891l0.04,0.04c1.902,1.901 4.99,1.901 6.891,-0Z" style="fill:#fff;"/></g><g id="beam4" serif:id="beam"><path id="beam5" serif:id="beam" d="M25.737,61.103c1.909,-1.91 1.909,-5.011 -0,-6.921l-0.01,-0.01c-1.91,-1.91 -5.011,-1.91 -6.921,-0c-1.91,1.91 -1.91,5.011 -0,6.921l0.01,0.01c1.91,1.91 5.011,1.91 6.921,-0Z" style="fill:#fff;"/></g><g id="beam6" serif:id="beam"><path id="beam7" serif:id="beam" d="M60.676,54.167c-1.907,-1.907 -5.004,-1.907 -6.911,0l-0.02,0.02c-1.907,1.907 -1.907,5.004 0,6.911c1.907,1.907 5.004,1.907 6.911,-0l0.02,-0.02c1.907,-1.907 1.907,-5.004 0,-6.911Z" style="fill:#fff;"/></g><g id="beam8" serif:id="beam"><path id="beam9" serif:id="beam" d="M14.524,34.623c-2.702,0 -4.896,2.194 -4.896,4.896l0,0.01c0,2.702 2.194,4.896 4.896,4.896c2.702,0 4.896,-2.194 4.896,-4.896l0,-0.01c0,-2.702 -2.194,-4.896 -4.896,-4.896Z" style="fill:#fff;"/></g><g id="beam10" serif:id="beam"><path id="beam11" serif:id="beam" d="M44.216,64.534c0,-2.705 -2.196,-4.901 -4.901,-4.901c-2.704,-0 -4.9,2.196 -4.9,4.901c-0,2.704 2.196,4.9 4.9,4.9c2.705,0 4.901,-2.196 4.901,-4.9Z" style="fill:#fff;"/></g><g id="beam12" serif:id="beam"><path id="beam13" serif:id="beam" d="M25.734,17.943c-1.911,-1.911 -5.015,-1.911 -6.926,0l-0.005,0.005c-1.911,1.911 -1.911,5.015 0,6.926c1.911,1.911 5.015,1.911 6.926,0l0.005,-0.005c1.911,-1.911 1.911,-5.014 0,-6.926Z" style="fill:#fff;"/></g><g id="beam14" serif:id="beam"><path id="beam15" serif:id="beam" d="M64.103,34.623c-2.7,0 -4.892,2.192 -4.892,4.892l-0,0.019c-0,2.699 2.192,4.891 4.892,4.891c2.699,0 4.891,-2.192 4.891,-4.891l0,-0.019c0,-2.7 -2.192,-4.892 -4.891,-4.892Z" style="fill:#fff;"/></g></g></g></svg>
+    </template>
+</a>
+
+<script>
+(function() {
+    const LOCAL_STORAGE_KEY = 'piccoloThemeMode'
+
+    var initialMode = localStorage.getItem(LOCAL_STORAGE_KEY)
+
+    if (initialMode) {
+        // Make sure the value in local storage is valid
+        if (['light', 'dark', 'darkest'].indexOf(initialMode) == -1) {
+            initialMode = 'light'
+            localStorage.setItem(LOCAL_STORAGE_KEY, initialMode)
+        }
+    } else {
+        // Check if the client prefers dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            initialMode = 'dark'
+        } else {
+            initialMode = 'light'
+        }
+        localStorage.setItem(LOCAL_STORAGE_KEY, initialMode)
+    }
+
+    document.documentElement.dataset.mode = initialMode
+
+    PetiteVue.createApp({
+        'mode': initialMode,
+        handleClick() {
+            let currentMode = this.mode
+
+            if (currentMode == 'light') {
+                this.mode = 'dark'
+            } else if (currentMode == 'dark') {
+                this.mode = 'darkest'
+            } else if (currentMode == 'darkest') {
+                this.mode = 'light'
+            }
+
+            document.documentElement.dataset.mode = this.mode
+            localStorage.setItem(LOCAL_STORAGE_KEY, this.mode)
+
+            console.log(this.mode)
+        }
+    }).mount('#mode_toggle')
+})()
+</script>
+            <p class="mobile_search_link">
+                <a href="search.html" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 64" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
+                        <path d="M14.873 40.009c-2.315-3.943-3.642-8.532-3.642-13.429C11.231 11.91 23.141 0 37.811 0s26.58 11.91 26.58 26.58-11.91 26.58-26.58 26.58a26.44 26.44 0 0 1-14.277-4.161L9.739 62.794a3.12 3.12 0 0 1-4.413 0L.913 58.382c-1.217-1.218-1.217-3.196 0-4.413l13.96-13.96zM37.811 8.054c10.225 0 18.526 8.301 18.526 18.526s-8.301 18.526-18.526 18.526-18.526-8.301-18.526-18.526S27.586 8.054 37.811 8.054z" fill="#fff" />
+                    </svg>
+                </a>
+            </p>
+        
+
+        <div class="searchbox_wrapper">
+            
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="caption" role="heading"><span class="caption-text">Table Of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releaseNotes.html">Release notes and notices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingStarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planning.html">Planning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration after installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Integrating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adminProduct.html">Administering the product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adminNetwork.html">Administering networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Developing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Future Improvments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">My Contact Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Page</a></li>
+</ul>
+
+        </div>
+      </div>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="troubleshooting">
+<span id="troubleshoot"></span><h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
+<p>This application is on its very first iteration and thus it may contain some issues. This section includes concise documentation for the end-user and potential software administrators to help if they encounter issues with software or hardware when running this application.</p>
+<section id="frequently-asked-questions">
+<h2>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p>What is the F1 Predict application?</p>
+<ul class="simple">
+<li><p>This application is purely centered around Formula 1 and predicting outcomes of the sporting spectical. For a more detaied description please see the <a class="reference internal" href="overview.html#overview"><span class="std std-ref">Overview</span></a> page for an overview or the <a class="reference internal" href="requirements.html#requirements"><span class="std std-ref">Requirements</span></a> page for a list of features.</p></li>
+</ul>
+</li>
+<li><p>Do I have to pay to use the application?</p>
+<ul class="simple">
+<li><p>This application is completly free and licensed under the <a class="reference external" href="https://www.gnu.org/licenses/fdl-1.3.html">GNU Free Documentation License</a> act.</p></li>
+</ul>
+</li>
+<li><p>How do I use the application?</p>
+<ul class="simple">
+<li><p>This application is designed with a very simple UI and to find more detailed instructions regarding startup of the application please visit <a class="reference internal" href="installing.html#installing"><span class="std std-ref">Installing</span></a> or for more detailed usage instructions please visit the <a class="reference internal" href="usage.html#usage"><span class="std std-ref">Usage</span></a> page.</p></li>
+</ul>
+</li>
+<li><p>How do I install this application?</p>
+<ul class="simple">
+<li><p>This application is pretty easy to install and run, please visit the <a class="reference internal" href="installing.html#installing"><span class="std std-ref">Installing</span></a> page for more deetails.</p></li>
+</ul>
+</li>
+<li><p>I can’t pip install the required packages.</p>
+<ul class="simple">
+<li><p>Pip package manager cannot install packages if:</p>
+<ul>
+<li><p>You are not running the terminal as admin</p></li>
+<li><p>You have poor network connection</p></li>
+<li><p>You have a different pip / python version installe previously</p></li>
+<li><p>You don’t have python configured in your enviroment variables</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>How do I add Python to my enviroment variables?</p>
+<ul class="simple">
+<li><p>It can be done automatically for you by the python installer or you can view these manual steps at <a class="reference external" href="https://www.educative.io/answers/how-to-add-python-to-path-variable-in-windows">How To Add Python To Your Enviroment Variables</a>.</p></li>
+</ul>
+</li>
+<li><p>Where can I download Python?</p>
+<ul class="simple">
+<li><p>You can download the Python installer directly from the <a class="reference external" href="https://www.python.org/downloads/">Python.io Downloads</a> website.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>IMPORTANT:</strong> Please ensure you download <a class="reference external" href="https://www.python.org/downloads/release/python-379/">Python 3.7</a> version, furthure installation instructions can be found on the <a class="reference internal" href="installing.html#installing"><span class="std std-ref">Installing</span></a> page.</p>
+</div>
+</li>
+<li><p>I already have a different version of python installed.</p>
+<ul class="simple">
+<li><p>That is not a problem, if your currently installed python is 3.7 then continue using that version. If it is a version greater or lower than 3.7 then please download the <a class="reference external" href="https://www.python.org/downloads/release/python-379/">Python 3.7</a> installer.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>IMPORTANT:</strong> There could be conflicts with multiple versions of python installed if you do not manage your enviroment variables. Ensure Python 3.7 appears highest in your PATH enviroment variable and PYTHONHOME variable is set to Python 3.7.</p>
+</div>
+</li>
+<li><p>How do I open a command line terminal as admin?</p>
+<ul class="simple">
+<li><p>There are multiple ways to open a terminal as admin, simplest is to search <cite>CMD</cite> and open as administrator. Other methods are detailed at <a class="reference external" href="https://www.educative.io/answers/how-to-run-cmd-as-an-administrator">Admin CMD</a> page.</p></li>
+</ul>
+</li>
+<li><p>What are the requirements to run this application?</p>
+<ul class="simple">
+<li><p>This is detailed on the <a class="reference internal" href="installing.html#installing"><span class="std std-ref">Installing</span></a> page.</p></li>
+</ul>
+</li>
+<li><p>The F1 Predict application fails to start up.</p>
+<ul class="simple">
+<li><p>There are multiple reasons that this could occur, please have a look and the terminal window to see an error message and refer to the error message section below.</p></li>
+</ul>
+</li>
+<li><p>I am getting strange errors when I try to run the application.</p>
+<ul class="simple">
+<li><p>Please have a look at the error message section below, if you have a different error you are welcome to contact me, try the third-party resources, or fially a web browser.</p></li>
+</ul>
+</li>
+<li><p>Can I contribute to the F1 Predict project?</p>
+<ul class="simple">
+<li><p>Yes you may, the methods of contribution are detailed on the <a class="reference internal" href="develop.html#develop"><span class="std std-ref">Developing</span></a> page.</p></li>
+</ul>
+</li>
+<li><p>How can I contact the developer of F1 Predict?</p>
+<ul class="simple">
+<li><p>You can contact me via email or other platforms, please see the <a class="reference internal" href="contact.html#contact"><span class="std std-ref">My Contact Details</span></a> page.</p></li>
+</ul>
+</li>
+<li><p>When was the database last updated?</p>
+<ul class="simple">
+<li><p>Currently the database was last updated in December of 2022 (12/2022).</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is a plan to implement automatic update of the database on the <a class="reference internal" href="future.html#future"><span class="std std-ref">Future Improvments</span></a> page</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="error-messages">
+<h2>Error Messages<a class="headerlink" href="#error-messages" title="Permalink to this heading">¶</a></h2>
+<p>These are some of the error messages that users reported during testing:</p>
+<ul class="simple">
+<li><p>Missing Python</p></li>
+</ul>
+<figure class="align-center" id="id2">
+<img alt="example of missing python install" src="_images/missingpython.png" />
+<figcaption>
+<p><span class="caption-text"><em>This can be resolved by installing a version of python, if you have already installed python please check your enviroment variables</em></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Missing modules</p></li>
+</ul>
+<figure class="align-center" id="id3">
+<img alt="example of missing pip package" src="_images/missingpip.png" />
+<figcaption>
+<p><span class="caption-text"><em>This can be resolved by running py -3.7 -m pip install -r requirements.txt in the root folder of F1 Predict</em></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Incorrect versions</p></li>
+</ul>
+<figure class="align-center" id="id4">
+<img alt="example of incorrect versions" src="_images/wrongversion.png" />
+<figcaption>
+<p><span class="caption-text"><em>This can be resolved by ensuring you have the correct python version installed and configured in your enviroment variables</em></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Admin Privilages:</p></li>
+</ul>
+<figure class="align-center" id="id5">
+<img alt="example of missing privilage premissions" src="_images/adminpip.png" />
+<figcaption>
+<p><span class="caption-text"><em>This can be resolved by running the terminal as administrator</em></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>IMPORTANT:</strong> If these error messages do not match yours please feel free to contact me, search the third-party resources, or just browse the internet for the answers.</p>
+</div>
+</section>
+<section id="additional-documentation">
+<h2>Additional Documentation<a class="headerlink" href="#additional-documentation" title="Permalink to this heading">¶</a></h2>
+<section id="contact-support">
+<h3>Contact Support<a class="headerlink" href="#contact-support" title="Permalink to this heading">¶</a></h3>
+<p>You are welcome to contact me on any of the mediuns on the <a class="reference internal" href="contact.html#contact"><span class="std std-ref">My Contact Details</span></a> page</p>
+</section>
+<section id="third-party-resources">
+<h3>Third-Party Resources<a class="headerlink" href="#third-party-resources" title="Permalink to this heading">¶</a></h3>
+<p>These are resources that are exceptionally good and helping with source code issuse:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.educative.io/explore">https://www.educative.io/explore</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/">https://docs.python.org/3.7/</a></p></li>
+<li><p><a class="reference external" href="https://pip.pypa.io/en/stable/">https://pip.pypa.io/en/stable/</a></p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/">https://stackoverflow.com/</a></p></li>
+<li><p><a class="reference external" href="https://studyopedia.com/python3/install-python-on-windows-10/">How to install Python on Windows</a></p></li>
+<li><p><a class="reference external" href="https://note.nkmk.me/en/python-pip-install-requirements/#:~:text=Install%20packages%20with%20pip%3A%20%2Dr%20requirements.txt,-The%20following%20command&amp;text=You%20can%20name%20the%20configuration,%2Fto%2Frequirements.txt%20.">Pip Install</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+    
+        <div id="show_right_sidebar">
+            <p><a class="toggle_right_sidebar" href="#"><span class="icon"><</span><span>Page contents<span></a></p>
+        </div>
+
+        <div id="right_sidebar">
+            <p><a class="toggle_right_sidebar" href="#"><span class="icon">></span><span>Page contents:<span></a></p>
+            <div class="page_toc">
+                <ul>
+<li><a class="reference internal" href="#">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+<li><a class="reference internal" href="#error-messages">Error Messages</a></li>
+<li><a class="reference internal" href="#additional-documentation">Additional Documentation</a><ul>
+<li><a class="reference internal" href="#contact-support">Contact Support</a></li>
+<li><a class="reference internal" href="#third-party-resources">Third-Party Resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+        </div>
+    
+
+      <div class="clearer"></div>
+    </div>
+    <div class="button_nav_wrapper">
+        <div class="button_nav">
+            <div class="left">
+                
+                <a href="develop.html">
+                    <span class="icon"><</span><span>Developing</span></a>
+                
+            </div>
+
+            <div class="right">
+                
+                    <a href="requirements.html"><span>Requirements</span><span class="icon">></span></a>
+                
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Robert Zeelie.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+
+<p id="theme_credit">Styled using the <a href="https://github.com/piccolo-orm/piccolo_theme">Piccolo Theme</a></p>
+  </body>
+</html>
